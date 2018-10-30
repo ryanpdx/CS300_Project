@@ -1,0 +1,93 @@
+<html>
+	<head>
+	<script>
+	// Jomar Mullen CS300 Team E project
+
+		x_max = 25;
+		y_max = 25;
+		x_hero = 0;
+		y_hero = 0;
+		hero_energy = 100;
+
+		function refresh_info(){
+			document.forms[0].hero_loc.value =x_hero+','+y_hero;
+			document.forms[0].hero_energy.value =hero_energy;
+
+		}
+
+		function hero_north(){
+			hero_energy--;
+			if(hero_energy <= 0){
+				alert("Game Over");
+			}
+			if(y_hero >= y_max-1)
+			{ y_hero = 0;}
+			else
+			{y_hero += 1;}
+			refresh_info();
+		}
+
+		function hero_east(){
+			hero_energy--;
+			if(hero_energy <= 0){
+				alert("Game Over");
+			}
+			if(x_hero >= x_max-1)
+			{ x_hero = 0;}
+			else
+			{x_hero += 1;}
+			refresh_info();
+		}
+
+		function hero_west(){
+			hero_energy--;
+			if(hero_energy <= 0){
+				alert("Game Over");
+			}
+			if(x_hero <= 0)
+			{ x_hero = x_max-1;}
+			else
+			{x_hero += -1;}
+			refresh_info();
+
+		}
+
+		function hero_south(){
+			hero_energy--;
+			if(hero_energy <= 0){
+				alert("Game Over");
+			}
+			if(y_hero <= 0)
+			{ y_hero = y_max-1;}
+			else
+			{y_hero += -1;}
+			refresh_info();
+
+		}
+		
+	</script>
+	</head>
+	<body>
+		<form>
+			Map Size: <input name=map type=text value ="null">
+			<br>
+			Current Location: <input name=hero_loc type=text value="null">
+			<br>
+			Hero Energy: <input name=hero_energy type=text value="null">
+			<br><br>
+		</form>
+
+		&nbsp;&nbsp;&nbsp;&nbsp; <button onclick=hero_north() >north </button> <br>
+		<button onclick=hero_west() >west </button>
+		<button onclick=hero_east() >east  </button> <br>
+		&nbsp;&nbsp;&nbsp;&nbsp; <button onclick=hero_south() >south </button>
+	
+		<script>
+
+			document.forms[0].map.value = x_max+ ',' +y_max;
+			document.forms[0].hero_loc.value =x_hero+','+y_hero;
+			document.forms[0].hero_energy.value =hero_energy;
+		</script>
+	</body>
+</html>
+
