@@ -1,0 +1,29 @@
+<script>
+function RoyalDiamondsFound(){
+    theMap = localStorage.getItem('map');
+    mapLine = theMap.substring(1,theMap.length-1).split("][");
+    for (let i = 7; i<= mapLine.length; ++i) {	
+        if(mapLine[i].startsWith(mapLine[3])) {
+   				word = mapLine[i].split(",");
+            return (word[4] == "Royal Diamonds"); 
+        }
+    }
+    return false;
+}
+
+function AlertDiamondsFound() {
+    if(RoyalDiamondsFound()) {
+        alert("You earned the Royal Diamonds, and won the game !") ;
+    }
+}
+
+//// Test out the code 
+if (RoyalDiamondsFound() != true){
+        alert("false"); 
+}
+AlertDiamondsFound();
+alert(theMap);
+/////////////////
+
+</script> 
+
