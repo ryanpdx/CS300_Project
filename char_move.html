@@ -7,18 +7,20 @@
 		y_max = 25;
 		x_hero = 0;
 		y_hero = 0;
-		hero_energy = 100;
+		hero_energy = 50;
 
-		function refresh_info(){
+		//refreshes hero varible text boxes for when updated
+		function refresh_info(){ 
 			document.forms[0].hero_loc.value =x_hero+','+y_hero;
 			document.forms[0].hero_energy.value =hero_energy;
 
 		}
 
+		//move hero north 
 		function hero_north(){
 			hero_energy--;
 			if(hero_energy <= 0){
-				alert("Game Over");
+				//function call for game over goes here
 			}
 			if(y_hero >= y_max-1)
 			{ y_hero = 0;}
@@ -30,7 +32,7 @@
 		function hero_east(){
 			hero_energy--;
 			if(hero_energy <= 0){
-				alert("Game Over");
+				//function call for game over goes here
 			}
 			if(x_hero >= x_max-1)
 			{ x_hero = 0;}
@@ -42,7 +44,7 @@
 		function hero_west(){
 			hero_energy--;
 			if(hero_energy <= 0){
-				alert("Game Over");
+				//function call for game over goes here
 			}
 			if(x_hero <= 0)
 			{ x_hero = x_max-1;}
@@ -55,7 +57,7 @@
 		function hero_south(){
 			hero_energy--;
 			if(hero_energy <= 0){
-				alert("Game Over");
+				//function call for game over goes here
 			}
 			if(y_hero <= 0)
 			{ y_hero = y_max-1;}
@@ -68,7 +70,7 @@
 	</script>
 	</head>
 	<body>
-		<form>
+		<form> <! Displays hero variables in text box values are not alterable in textbox>
 			Map Size: <input name=map type=text value ="null">
 			<br>
 			Current Location: <input name=hero_loc type=text value="null">
@@ -77,13 +79,29 @@
 			<br><br>
 		</form>
 
-		&nbsp;&nbsp;&nbsp;&nbsp; <button onclick=hero_north() >north </button> <br>
-		<button onclick=hero_west() >west </button>
-		<button onclick=hero_east() >east  </button> <br>
-		&nbsp;&nbsp;&nbsp;&nbsp; <button onclick=hero_south() >south </button>
-	
-		<script>
+		<table> <! Displays movement in 3x3 table>
+			<tr>
+			<td></td>
+			<td><button onclick=hero_north() >north </button></td>
+			<td></td>
+			</tr>
+			
+			<tr>
+			<td><button onclick=hero_west() >west </button></td>
+			<td></td>
+			<td><button onclick=hero_east() >east  </button></td>
+			</tr>
 
+			<tr>
+			<td></td>
+			<td><button onclick=hero_south() >south </button></td>
+			<td></td>
+			</tr>
+		</table>
+
+		
+		 <! sets hero variables to default values>
+		<script>
 			document.forms[0].map.value = x_max+ ',' +y_max;
 			document.forms[0].hero_loc.value =x_hero+','+y_hero;
 			document.forms[0].hero_energy.value =hero_energy;
