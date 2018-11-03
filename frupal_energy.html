@@ -4,11 +4,13 @@
         <title> 
         Frupal Energy Task
         </title>
+        <audio id="death" src="death.mp3"preload="auto"></audio>
         <script>
             function out_of_energy(energy){
                 if (energy <= 0){
                     <!-- no energy --> 
                    // alert("You have run out of energy");
+                    document.getElementById('death').play();
                     death_confirm();
                     
                     return true;
