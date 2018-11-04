@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Frupal</title>
+	<audio id="death" src="death.mp3"preload="auto"></audio> // audio file from daniel
     <style type="text/css">
         canvas{
         display: block;
@@ -10,9 +11,6 @@
         
         }
     </style>
-	<script>
-			hero_energy = 50;
-	</script>
 	</head>
 <body onload="display();"> 
     <canvas id="mycanvas" width="660px" height="660px"></canvas>
@@ -22,9 +20,32 @@
         var me = true;
         var position = [15, 15] // Here is the initial position of the hero
 		//from jomar
-		var hero_energy = 50;//the hero energy set as hero_energy later 
+		var hero_energy = 10;//the hero energy set as hero_energy later 
         //from jomar_end
 		
+		//daniel start
+		function out_of_energy(energy){
+            if (energy <= 0){
+                <!-- no energy --> 
+                // alert("You have run out of energy");
+                document.getElementById('death').play();
+                death_confirm();    
+                return true;
+            }
+            return false;
+		}
+		
+		function low_energy(energy){ // like critical health dont need to use it now or later maybe
+            if (energy >= 1 && energy <=5){
+                <!-- low energy --> 
+                alert("you are running low on energy");
+            }       
+		}
+		
+		function death_confirm(){
+                alert("You have run out of energy");
+        }
+		//daniel end
 		//jomar_start
 		function refresh_info(){ 
 			document.forms[0].hero_energy.value =hero_energy;
@@ -72,6 +93,7 @@
 				position[1] -= 1;
 			}
 			--hero_energy; //jomar energy
+			out_of_energy(hero_energy);//daniel death
 			oneStep(position[0], position[1]);
 			refresh_info();//jomar refresh function
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
@@ -85,6 +107,7 @@
 				position[0] -= 1;
 			}
 			--hero_energy; //jomar energy
+			out_of_energy(hero_energy);//daniel death
 			oneStep(position[0], position[1]);
 			refresh_info();
         }
@@ -98,6 +121,7 @@
 				position[0] += 1;
 			}
 			--hero_energy; //jomar energy
+			out_of_energy(hero_energy);//daniel death
             oneStep(position[0], position[1]);
 			refresh_info();
         }
@@ -111,6 +135,7 @@
 				position[1] += 1;
 			}
 			--hero_energy; //jomar energy
+			out_of_energy(hero_energy);//daniel death
             oneStep(position[0], position[1]);
 			refresh_info();
         }
