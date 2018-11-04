@@ -3,8 +3,38 @@
 // CS300 Team E project
 // add names later
 </script>
+<head>
+    <meta charset="UTF-8">
+    <title>Frupal</title>
+    <style type="text/css">
+        canvas{
+        display: block;
+        margin: 50px auto;
+        
+        }
+	</style>
+</head>
 <audio id="death" src="death.mp3"preload="auto"></audio>
+<canvas id="mycanvas" width="660px" height="660px"></canvas>
 <script>
+	var chess = document.getElementById("mycanvas");
+	var context = chess.getContext('2d');
+	var me = true;
+	var position = [0, 0] // Here is the initial position of the hero
+	
+	function drawChessBoard(){
+		for(var i=0;i<21;i++){
+			context.strokeStyle="#D6D1D1";
+			context.moveTo(21+i*30,21);//There are 21 vertical lines, the gap is 30px
+			context.lineTo(21+i*30,620);
+			context.stroke();
+			context.moveTo(21,21+i*30);//There are 21 verizon lines, the gap is 30px
+			context.lineTo(620,21+i*30);
+			context.stroke();
+		}
+	}//This function is used for drawing the coordinate
+	drawChessBoard(); //Actually draw the coordinate
+	
 	x_max = 25;
 	y_max = 25;
 	x_hero = 0;

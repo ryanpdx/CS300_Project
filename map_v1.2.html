@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frupal</title>
+    <style type="text/css">
+        canvas{
+        display: block;
+        margin: 50px auto;
+        
+        }
+    </style>
+</head>
+<body onload="display();"> 
+    <canvas id="mycanvas" width="660px" height="660px"></canvas>
+    <script type="text/javascript">
+        var chess = document.getElementById("mycanvas");
+        var context = chess.getContext('2d');
+        var me = true;
+        var position = [15, 15] // Here is the initial position of the hero
+        
+        function drawChessBoard(){
+            for(var i=0;i<21;i++){
+                context.strokeStyle="#D6D1D1";
+                context.moveTo(21+i*30,21);//There are 21 vertical lines, the gap is 30px
+                context.lineTo(21+i*30,620);
+                context.stroke();
+                context.moveTo(21,21+i*30);//There are 21 verizon lines, the gap is 30px
+                context.lineTo(620,21+i*30);
+                context.stroke();
+            }
+        }//This function is used for drawing the coordinate
+        drawChessBoard(); //Actually draw the coordinate
+        
+        function oneStep(x,y){
+            context.beginPath();
+            context.arc(21+x*30,21+y*30,13,0,2*Math.PI);//drawing the node represents the hero
+            var g=context.createRadialGradient(21+x*30,21+y*30,13,21+x*30,21+y*30,0);//creates the circle
+                                    
+            g.addColorStop(0,'#0A0A0A');//color of the node this is why it is black
+            context.fillStyle=g;
+            context.fill();
+            context.closePath();
+        }
+        function remove(){
+            var c=document.getElementById("mycanvas");  
+            var cxt=c.getContext("2d");  
+            c.height=c.height;   
+        }// This is the remove function which draws an empty coordinate in order to cover the old position  
+        
+        oneStep(position[0], position[1]);//Actually draw the node
+        
+        
+        function moveup(){
+            remove();
+            drawChessBoard();
+			if(position[1]==0){// this checks if the avatar is near the top
+				position[1]=20; // wrap around screen on the top but should change it to max variable later max_variable
+			}
+			else{// keep moving up
+				position[1] -= 1;
+			}
+			oneStep(position[0], position[1]);
+        }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
+        function moveleft(){
+            remove();
+            drawChessBoard();
+			if(position[0] == 0){//wraps around the left side 
+				position[0] = 20; // wrap around the screen but should change this into a variable later max_variable
+			}
+			else{
+				position[0] -= 1;
+			}
+			oneStep(position[0], position[1]);
+        }
+        function moveright(){
+            remove();
+            drawChessBoard();
+			if(position[0] == 20){//wraps around the right side set to max_variable
+				position[0] = 0; // set the wrap to the left side min_variable
+			}
+			else{
+				position[0] += 1;
+			}
+            oneStep(position[0], position[1]);
+        }
+        function movedown(){
+            remove();
+            drawChessBoard();
+			if(position[1] == 20){//set it to max_variable later
+				position[1] = 0;//set it min_variable later
+			}
+			else{
+				position[1] += 1;
+			}
+            oneStep(position[0], position[1]);
+        }
+        function display(){
+            pos.innerHTML= position;
+            setTimeout("display()",100);
+        }// refresh the current position every 100ms
+        display(); // Display the current position
+        
+    </script>
+    <div style="text-align:center;width:480px;">
+  <button onclick="moveup()">UP</button><br><br>
+  <button onclick="moveleft()">LEFT</button>
+  <button onclick="moveright()">RIGHT</button><br><br>
+  <button onclick="movedown()">DOWN</button>
+  <h2>Hero current position： <span id='pos'></span></h2>
+</div>
+
+
+
+    
+</body>
+</html>
