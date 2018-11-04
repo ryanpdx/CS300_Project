@@ -10,7 +10,10 @@
         
         }
     </style>
-</head>
+	<script>
+			hero_energy = 50;
+	</script>
+	</head>
 <body onload="display();"> 
     <canvas id="mycanvas" width="660px" height="660px"></canvas>
     <script type="text/javascript">
@@ -18,7 +21,15 @@
         var context = chess.getContext('2d');
         var me = true;
         var position = [15, 15] // Here is the initial position of the hero
-        
+		//from jomar
+		var hero_energy = 50;//the hero energy set as hero_energy later 
+        //from jomar_end
+		
+		//jomar_start
+		function refresh_info(){ 
+			document.forms[0].hero_energy.value =hero_energy;
+		}
+		//jomar_end
         function drawChessBoard(){
             for(var i=0;i<21;i++){
                 context.strokeStyle="#D6D1D1";
@@ -60,7 +71,9 @@
 			else{// keep moving up
 				position[1] -= 1;
 			}
+			--hero_energy; //jomar energy
 			oneStep(position[0], position[1]);
+			refresh_info();//jomar refresh function
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
         function moveleft(){
             remove();
@@ -71,7 +84,9 @@
 			else{
 				position[0] -= 1;
 			}
+			--hero_energy; //jomar energy
 			oneStep(position[0], position[1]);
+			refresh_info();
         }
         function moveright(){
             remove();
@@ -82,7 +97,9 @@
 			else{
 				position[0] += 1;
 			}
+			--hero_energy; //jomar energy
             oneStep(position[0], position[1]);
+			refresh_info();
         }
         function movedown(){
             remove();
@@ -93,7 +110,9 @@
 			else{
 				position[1] += 1;
 			}
+			--hero_energy; //jomar energy
             oneStep(position[0], position[1]);
+			refresh_info();
         }
         function display(){
             pos.innerHTML= position;
@@ -101,6 +120,11 @@
         }// refresh the current position every 100ms
         display(); // Display the current position
         
+		document.forms[0].hero_energy.value =hero_energy;
+	
+	
+
+	
     </script>
     <div style="text-align:center;width:480px;">
   <button onclick="moveup()">UP</button><br><br>
@@ -108,7 +132,14 @@
   <button onclick="moveright()">RIGHT</button><br><br>
   <button onclick="movedown()">DOWN</button>
   <h2>Hero current position： <span id='pos'></span></h2>
+  
+  	<form> Hero Energy: <input name=hero_energy type=text value="null">
+	<br><br>
+	</form>
 </div>
+
+	
+	
 
 
 
