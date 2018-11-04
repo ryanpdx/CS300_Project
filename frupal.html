@@ -17,10 +17,16 @@
 <audio id="death" src="death.mp3"preload="auto"></audio>
 <canvas id="mycanvas" width="660px" height="660px"></canvas>
 <script>
+	x_max = 20;
+	y_max = 20;
+	x_hero = 0;
+	y_hero = 0;
+	hero_energy = 10;
+
 	var chess = document.getElementById("mycanvas");
 	var context = chess.getContext('2d');
 	var me = true;
-	var position = [0, 0] // Here is the initial position of the hero
+	var position = [x_hero, y_hero] // Here is the initial position of the hero
 	
 	function drawChessBoard(){
 		for(var i=0;i<21;i++){
@@ -33,13 +39,33 @@
 			context.stroke();
 		}
 	}//This function is used for drawing the coordinate
+
 	drawChessBoard(); //Actually draw the coordinate
+
+	function oneStep(x,y){
+		context.beginPath();
+		context.arc(21+x*30,21+y*30,13,0,2*Math.PI);//drawing the node represents the hero
+		var g=context.createRadialGradient(21+x*30,21+y*30,13,21+x*30,21+y*30,0);//creates the circle
+								
+		g.addColorStop(0,'#0A0A0A');//color of the node this is why it is black
+		context.fillStyle=g;
+		context.fill();
+		context.closePath();
+	}
+
+	function remove(){
+		var c=document.getElementById("mycanvas");  
+		var cxt=c.getContext("2d");  
+		c.height=c.height;   
+	}// This is the remove function which draws an empty coordinate in order to cover the old position  
 	
-	x_max = 25;
-	y_max = 25;
-	x_hero = 0;
-	y_hero = 0;
-	hero_energy = 10;
+	oneStep(0, 0);//Actually draw the node
+
+	function moveToOnMap(x,y){
+		remove();
+		drawChessBoard();
+		oneStep(x,y);
+	}
 
 	//refreshes hero varible text boxes for when updated
 	function refresh_info(){ 
@@ -59,48 +85,52 @@
 	}
 
 	function death_confirm(){
-		alert("You have run out of energy, new game");
+		alert("You have run out of energy, Reset game?");
 		window.location.reload();
 	}
-
-	//move hero north 
-	function hero_north(){
+	
+	function update_energy() {
 		hero_energy--;
 		out_of_energy(hero_energy);
+	}
+
+	function hero_north(){
+		update_energy();
 		if(y_hero >= y_max-1)
 		{ y_hero = 0;}
 		else
 		{y_hero += 1;}
+		moveToOnMap(x_hero, y_hero);
 		refresh_info();
 	}
 
 	function hero_east(){
-		hero_energy--;
-		out_of_energy(hero_energy);
+		update_energy();
 		if(x_hero >= x_max-1)
 		{ x_hero = 0;}
 		else
 		{x_hero += 1;}
+		moveToOnMap(x_hero, y_hero);
 		refresh_info();
 	}
 
 	function hero_west(){
-		hero_energy--;
-		out_of_energy(hero_energy);
+		update_energy();
 		if(x_hero <= 0)
 		{ x_hero = x_max-1;}
 		else
 		{x_hero += -1;}
+		moveToOnMap(x_hero, y_hero);
 		refresh_info();
 	}
 
 	function hero_south(){
-		hero_energy--;
-		out_of_energy(hero_energy);
+		update_energy();
 		if(y_hero <= 0)
 		{ y_hero = y_max-1;}
 		else
 		{y_hero += -1;}
+		moveToOnMap(x_hero, y_hero);
 		refresh_info();
 	}	
 </script>
