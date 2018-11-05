@@ -26,16 +26,14 @@
 
 	var chess = document.getElementById("mycanvas");
 	var context = chess.getContext('2d');
-	var me = true;
-	var position = [x_hero, y_hero] // Here is the initial position of the hero
 	
 	function drawChessBoard(){
 		for(var i=0;i<map_lines;i++){
 			context.strokeStyle="#D6D1D1";
-			context.moveTo(map_lines+i*map_line_gap,map_lines);//There are 21 vertical lines, the gap is 30px
+			context.moveTo(map_lines+i*map_line_gap,map_lines);
 			context.lineTo(map_lines+i*map_line_gap,map_size_px);
 			context.stroke();
-			context.moveTo(map_lines,map_lines+i*map_line_gap);//There are 21 verizon lines, the gap is 30px
+			context.moveTo(map_lines,map_lines+i*map_line_gap);
 			context.lineTo(map_size_px,map_lines+i*map_line_gap);
 			context.stroke();
 		}
@@ -45,7 +43,6 @@
 
 	function oneStep(x,y){
 		context.beginPath();
-		map_size_px = map_lines * map_line_gap; //
 		context.arc(map_lines+x*map_line_gap,map_lines+y*map_line_gap,13,0,2*Math.PI);//drawing the node represents the hero
 		var g=context.createRadialGradient(map_lines+x*map_line_gap,map_lines+y*map_line_gap,13,map_lines+x*map_line_gap,map_lines+y*map_line_gap,0);//creates the circle
 		g.addColorStop(0,'#0A0A0A');//color of the node this is why it is black

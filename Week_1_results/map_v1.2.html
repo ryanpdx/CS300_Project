@@ -18,12 +18,10 @@
         var chess = document.getElementById("mycanvas");
         var context = chess.getContext('2d');
         var me = true;
-        var position = [15, 15] // Here is the initial position of the hero
-		//from jomar
-		var hero_energy = 10;//the hero energy set as hero_energy later 
-        //from jomar_end
-        var canvas_position = [(chess.width/20),(chess.height/20)];
-		//daniel start
+        var position = [0,0]; // Here is the initial position of the hero
+		var map_size = 20;
+		var hero_energy = 30;//the hero energy set as hero_energy later 
+        var canvas_position = [(chess.width/map_size),(chess.height/map_size)];
 		function out_of_energy(energy){
             if (energy <= 0){
                 <!-- no energy --> 
@@ -45,22 +43,21 @@
 		function death_confirm(){
                 alert("You have run out of energy");
         }
-		//daniel end
-		//jomar_start
+
 		function refresh_info(){ 
 			document.forms[0].hero_energy.value =hero_energy;
 		}
-        //jomar end
-        //Kevin Start
+
         function green_img(x,y){
             grass = new Image();
             grass.src = 'Green.jpg';
-            var some_x = x*20;
-            var some_y = y*20;
+            var some_x = x*map_size;
+            var some_y = y*map_size;
             grass.onload = function(){
-                context.drawImage(grass,some_x,some_y,20,20);
+                context.drawImage(grass,some_x,some_y,map_size,map_size);
             }
         }
+
         function draw_green(c_x,c_y){
             var m_green = [];
             for (y = 1 ; y <= c_y; y+=2){
@@ -74,10 +71,10 @@
         function light_img(x,y){
             light = new Image();
             light.src = 'light_green.jpg';
-            var some_x = x*20;
-            var some_y = y*20;
+            var some_x = x*map_size;
+            var some_y = y*map_size;
             light.onload = function(){
-                context.drawImage(light,some_x,some_y,20,20);
+                context.drawImage(light,some_x,some_y,map_size,map_size);
             }
         }
     
@@ -91,7 +88,6 @@
             }
         }
     
-		//Kevin end
         function drawChessBoard(){
             draw_green(canvas_position[0],canvas_position[1]);
             draw_light_green(canvas_position[0],canvas_position[1]);
@@ -99,14 +95,15 @@
             for(var i=0;i<21;i++){
                 context.strokeStyle="#D6D1D1";
                 context.moveTo(21+i*30,21);//There are 21 vertical lines, the gap is 30px
-                context.lineTo(21+i*30,620);
+                context.lineTo(21+i*30,6map_size);
                 context.stroke();
                 context.moveTo(21,21+i*30);//There are 21 verizon lines, the gap is 30px
-                context.lineTo(620,21+i*30);
+                context.lineTo(6map_size,21+i*30);
                 context.stroke();
             }
              */
         }//This function is used for drawing the coordinate
+
         drawChessBoard(); //Actually draw the coordinate
         
         function oneStep(x,y){
@@ -124,10 +121,11 @@
             hero = new Image();
             hero.src = 'Hero.jpg';
             hero.onload = function(){
-                context.drawImage(hero,x*20,y*20,20,20);
+                context.drawImage(hero,x*map_size,y*map_size,map_size,map_size);
             }
            
         }
+
         function remove(){
             var c=document.getElementById("mycanvas");  
             var cxt=c.getContext("2d");  
@@ -141,7 +139,7 @@
             remove();
             drawChessBoard();
 			if(position[1]==0){// this checks if the avatar is near the top
-				position[1]=20; // wrap around screen on the top but should change it to max variable later max_variable
+				position[1]=map_size; // wrap around screen on the top but should change it to max variable later max_variable
 			}
 			else{// keep moving up
 				position[1] -= 1;
@@ -155,7 +153,7 @@
             remove();
             drawChessBoard();
 			if(position[0] == 0){//wraps around the left side 
-				position[0] = 20; // wrap around the screen but should change this into a variable later max_variable
+				position[0] = map_size; // wrap around the screen but should change this into a variable later max_variable
 			}
 			else{
 				position[0] -= 1;
@@ -165,10 +163,11 @@
 			oneStep(position[0], position[1]);
 			refresh_info();
         }
+
         function moveright(){
             remove();
             drawChessBoard();
-			if(position[0] == 20){//wraps around the right side set to max_variable
+			if(position[0] == map_size){//wraps around the right side set to max_variable
 				position[0] = 0; // set the wrap to the left side min_variable
 			}
 			else{
@@ -179,10 +178,11 @@
             oneStep(position[0], position[1]);
 			refresh_info();
         }
+
         function movedown(){
             remove();
             drawChessBoard();
-			if(position[1] == 20){//set it to max_variable later
+			if(position[1] == map_size){//set it to max_variable later
 				position[1] = 0;//set it min_variable later
 			}
 			else{
@@ -193,6 +193,7 @@
             oneStep(position[0], position[1]);
 			refresh_info();
         }
+
         function display(){
             pos.innerHTML= position;
             setTimeout("display()",100);
@@ -200,28 +201,18 @@
         display(); // Display the current position
         
 		document.forms[0].hero_energy.value =hero_energy;
-	
-	
 
-	
     </script>
     <div style="text-align:center;width:480px;">
-  <button onclick="moveup()">UP</button><br><br>
-  <button onclick="moveleft()">LEFT</button>
-  <button onclick="moveright()">RIGHT</button><br><br>
-  <button onclick="movedown()">DOWN</button>
-  <h2>Hero current position： <span id='pos'></span></h2>
+  		<button onclick="moveup()">UP</button><br><br>
+  		<button onclick="moveleft()">LEFT</button>
+  		<button onclick="moveright()">RIGHT</button><br><br>
+  		<button onclick="movedown()">DOWN</button>
+  		<h2>Hero current position： <span id='pos'></span></h2>
   
-  	<form> Hero Energy: <input name=hero_energy type=text value="null">
-	<br><br>
-	</form>
-</div>
-
-	
-	
-
-
-
-    
+  		<form> Hero Energy: <input name=hero_energy type=text value="null">
+			<br><br>
+		</form>
+	</div>
 </body>
 </html>
