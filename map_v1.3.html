@@ -139,7 +139,7 @@
         
         
         function moveup(){
-            remove();
+            //remove();
             drawChessBoard();
 			if(position[1]==0){// this checks if the avatar is near the top
 				position[1] = canvas_position[0]-1; // wrap around screen on the top but should change it to max variable later max_variable
@@ -153,7 +153,7 @@
 			refresh_info();//jomar refresh function
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
         function moveleft(){
-            remove();
+            //remove();
             drawChessBoard();
 			if(position[0] == 0){//wraps around the left side
 				position[0] = canvas_position[0]-1 ; // wrap around the screen but should change this into a variable later max_variable
@@ -167,7 +167,7 @@
 			refresh_info();
         }
         function moveright(){
-            remove();
+            //remove();
             drawChessBoard();
 			if(position[0] == canvas_position[0]-1){//wraps around the right side set to max_variable
 				position[0] = 0; // set the wrap to the left side min_variable
@@ -181,7 +181,7 @@
 			refresh_info();
         }
         function movedown(){
-            remove();
+            //remove();
             drawChessBoard();
 			if(position[1] == canvas_position[0]-1){//set it to max_variable later
 				position[1] = 0;//set it min_variable later
