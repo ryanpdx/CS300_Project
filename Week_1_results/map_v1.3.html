@@ -20,8 +20,8 @@
         var context = chess.getContext('2d');
         var me = true;
         var position = [0, 0] // Here is the initial position of the hero
-        var jewel_position = [1, 1] // location of jewels
-		var hero_energy = 50;//the hero energy set as hero_energy later
+        var jewel_position = [5, 5] // location of jewels
+		var hero_energy = 20;//the hero energy set as hero_energy later
         var canvas_position = [(chess.width/20),(chess.height/20)];
 
 		function out_of_energy(energy){
@@ -29,7 +29,8 @@
                 <!-- no energy --> 
                 // alert("You have run out of energy");
                 document.getElementById('death').play();
-                death_confirm();    
+                alert("You have run out of energy");
+				window.location.reload(false); 
                 return true;
             }
             return false;
@@ -41,10 +42,6 @@
                 alert("you are running low on energy");
             }       
 		}
-		
-		function death_confirm(){
-                alert("You have run out of energy");
-        }
 
 		function refresh_info(){ 
 			document.forms[0].hero_energy.value =hero_energy;
@@ -108,13 +105,10 @@
 
         drawChessBoard(); //Actually draw the coordinate
 		
-		function RoyalDiamondsFound(hero_x, hero_y, diamonds_x, diamonds_y){
-			return ((hero_x == diamonds_x) && (hero_y == diamonds_y));
-		}
-
 		function AlertDiamondsFound(hero_x,hero_y, diamonds_x, diamonds_y) {
-			if(RoyalDiamondsFound(hero_x, hero_y, diamonds_x, diamonds_y)) {
+			if((hero_x == diamonds_x) && (hero_y == diamonds_y)) {
 				alert("You earned the Royal Diamonds, and won the game !") ;
+				window.location.reload(false); 
 			}
 		}
         
@@ -157,7 +151,7 @@
 			--hero_energy;
 			out_of_energy(hero_energy);
 			oneStep(position[0], position[1]);
-			AlertDiamondsFound(position[0], postion[1], jewel_position[0], jewel_position[1]);
+			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
         function moveleft(){
@@ -172,7 +166,7 @@
 			--hero_energy;
 			out_of_energy(hero_energy);
 			oneStep(position[0], position[1]);
-			AlertDiamondsFound(position[0],postion[1], jewel_position[0], jewel_position[1]);
+			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }
 
@@ -188,7 +182,7 @@
 			--hero_energy; //jomar energy
 			out_of_energy(hero_energy);//daniel death
             oneStep(position[0], position[1]);
-			AlertDiamondsFound(position[0],postion[1], jewel_position[0], jewel_position[1]);
+			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }
         function movedown(){
@@ -203,7 +197,7 @@
 			--hero_energy; //jomar energy
 			out_of_energy(hero_energy);//daniel death
             oneStep(position[0], position[1]);
-			AlertDiamondsFound(position[0],postion[1], jewel_position[0], jewel_position[1]);
+			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }
         function display(){
