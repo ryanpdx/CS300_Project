@@ -1,20 +1,20 @@
 <!DOCTYPE html>
+<!-- CS300 group E -->
+<!--  Daniel Lee, Ching-Wei Lin, John Lorenz, Ryan Medick, Jomar Mullen, Tu Nguyen, Kevin Pham -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Frupal</title>
-	<audio id="death" src="death.mp3"preload="auto"></audio> <!-- audio file from daniel-->
+	<audio id="death" src="death.mp3"preload="auto"></audio> 
     <style type="text/css">
         canvas{
-        display: block;
-        margin: 50px auto;
-        
+        	display: block;
+        	margin: 50px auto;   
         }
     </style>
-	</head>
+</head>
 <body onload="display();"> 
     <canvas id="mycanvas" width="500px" height="500px"></canvas>
-    
     <script type="text/javascript">
         var chess = document.getElementById("mycanvas");
         var context = chess.getContext('2d');
@@ -25,22 +25,16 @@
         var canvas_position = [(chess.width/20),(chess.height/20)];
 
 		function out_of_energy(energy){
-            if (energy <= 0){
-                <!-- no energy --> 
-                // alert("You have run out of energy");
+            if (energy <= 0){ // no energy
                 document.getElementById('death').play();
                 alert("You have run out of energy");
 				window.location.reload(false); 
                 return true;
             }
+            //else if (energy >= 1 && energy <=5) { // low energy 
+            //    alert("you are running low on energy");
+            //}       
             return false;
-		}
-		
-		function low_energy(energy){ // like critical health dont need to use it now or later maybe
-            if (energy >= 1 && energy <=5){
-                <!-- low energy --> 
-                alert("you are running low on energy");
-            }       
 		}
 
 		function refresh_info(){ 
@@ -90,17 +84,6 @@
         function drawChessBoard(){
             draw_green(canvas_position[0],canvas_position[1]);
             draw_light_green(canvas_position[0],canvas_position[1]);
-            /*
-            for(var i=0;i<21;i++){
-                context.strokeStyle="#D6D1D1";
-                context.moveTo(21+i*30,21);//There are 21 vertical lines, the gap is 30px
-                context.lineTo(21+i*30,620);
-                context.stroke();
-                context.moveTo(21,21+i*30);//There are 21 verizon lines, the gap is 30px
-                context.lineTo(620,21+i*30);
-                context.stroke();
-            }
-             */
         }//This function is used for drawing the coordinate
 
         drawChessBoard(); //Actually draw the coordinate
@@ -113,17 +96,6 @@
 		}
         
         function oneStep(x,y){
-            /*
-            context.beginPath();
-            context.arc(21+x*30,21+y*30,13,0,2*Math.PI);//drawing the node represents the hero
-            var g=context.createRadialGradient(21+x*30,21+y*30,13,21+x*30,21+y*30,0);//creates the circle
-                                    
-            g.addColorStop(0,'#0A0A0A');//color of the node this is why it is black
-            context.fillStyle=g;
-            context.fill();
-            context.closePath();
-             */
-           
             hero = new Image();
             hero.src = 'Hero.jpg';
             hero.onload = function(){
@@ -131,16 +103,21 @@
             }
            
         }
+
+        // This is the remove function which draws an empty coordinate in order to cover the old position  
         function remove(){
             var c=document.getElementById("mycanvas");  
             var cxt=c.getContext("2d");  
             c.height=c.height;   
-        }// This is the remove function which draws an empty coordinate in order to cover the old position  
+        }
         
         oneStep(position[0], position[1]);//Actually draw the node
  
+        // Move up function, draw a new coordinate first to cover the old node and then change the position.
+		// Finally, draw the new node on the new position. ATTENTION!! 
+		// The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! 
+		// one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
         function moveup(){
-            //remove();
             drawChessBoard();
 			if(position[1]==0){// this checks if the avatar is near the top
 				position[1] = canvas_position[0]-1; // wrap around screen on the top but should change it to max variable later max_variable
@@ -153,9 +130,9 @@
 			oneStep(position[0], position[1]);
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
-        }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
+        }
+
         function moveleft(){
-            //remove();
             drawChessBoard();
 			if(position[0] == 0){//wraps around the left side
 				position[0] = canvas_position[0]-1 ; // wrap around the screen but should change this into a variable later max_variable
@@ -171,7 +148,6 @@
         }
 
         function moveright(){
-            //remove();
             drawChessBoard();
 			if(position[0] == canvas_position[0]-1){//wraps around the right side set to max_variable
 				position[0] = 0; // set the wrap to the left side min_variable
@@ -179,14 +155,14 @@
 			else{
 				position[0] += 1;
 			}
-			--hero_energy; //jomar energy
-			out_of_energy(hero_energy);//daniel death
+			--hero_energy; 
+			out_of_energy(hero_energy);
             oneStep(position[0], position[1]);
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }
+
         function movedown(){
-            //remove();
             drawChessBoard();
 			if(position[1] == canvas_position[0]-1){//set it to max_variable later
 				position[1] = 0;//set it min_variable later
@@ -194,29 +170,32 @@
 			else{
 				position[1] += 1;
 			}
-			--hero_energy; //jomar energy
-			out_of_energy(hero_energy);//daniel death
+			--hero_energy; 
+			out_of_energy(hero_energy);
             oneStep(position[0], position[1]);
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }
+
+		// refresh the current position every 100ms
         function display(){
             pos.innerHTML= position;
             energy.innerHTML= hero_energy;
             setTimeout("display()",100);
-        }// refresh the current position every 100ms
-        display(); // Display the current position
+        }
+        
+		display(); // Display the current position
         
 		document.forms[0].hero_energy.value =hero_energy;
 	
-</script>
+	</script>
     <div style="text-align:center;width:480px;">
-  	<button onclick="moveup()">UP</button><br><br>
-  	<button onclick="moveleft()">LEFT</button>
-  	<button onclick="moveright()">RIGHT</button><br><br>
- 	 <button onclick="movedown()">DOWN</button>
-  	<h2>Hero current position： <span id='pos'></span></h2>
-  	<h2>Energy： <span id='energy'></span></h2>
-</div> 
+  		<button onclick="moveup()">UP</button><br><br>
+  		<button onclick="moveleft()">LEFT</button>
+  		<button onclick="moveright()">RIGHT</button><br><br>
+ 		<button onclick="movedown()">DOWN</button>
+  		<h2>Hero current position： <span id='pos'></span></h2>
+  		<h2>Energy： <span id='energy'></span></h2>
+	</div> 
 </body>
 </html>
