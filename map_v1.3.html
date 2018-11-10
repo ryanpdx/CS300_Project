@@ -40,6 +40,8 @@
 	var water_count = 10;
 	var treasure1_count =5;
 	var treasure2_count = 5;
+	var jewel_count = 10;
+	var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
 	
 
 	//map bounds
@@ -74,6 +76,10 @@
 			}
 			for (var i = 0; i < treasure2_count; i++){
 				map_elements[random_coord()][random_coord()] = 6;
+			}
+			// jewels need to be last value as current implementation does not check if another object is in that location
+			for (var i = 0; i < jewel_count; i++){ 
+				map_elements[random_coord()][random_coord()] = 9;
 			}
 		}
 		
@@ -164,6 +170,16 @@
                 context.drawImage(boulder,some_x,some_y,20,20);
             }
         }
+
+        function jewel_img(x,y){
+            jewel = new Image();
+            jewel.src = 'jewel.jpg';
+            var some_x = x*20;
+            var some_y = y*20;
+            jewel.onload = function(){
+                context.drawImage(jewel,some_x,some_y,20,20);
+            }
+        }
         function blackberry_img(x,y){
             blackberry = new Image();
             blackberry.src = 'blackberry.jpg';
@@ -179,6 +195,7 @@
 	    var m_blackberry = [];
 	    var m_water = [];	
 	    var m_treasure1 = [];
+	    var m_jewel = [];
 		for(var i = 0; i < map_size; i++){
 			for( var k = 0; k < map_size; k++){
 				if(map_elements[i][k] == 1){
@@ -199,6 +216,10 @@
 				if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
 				m_treasure1.push(new treasure_img(i,k));
 				}
+				if(map_elements[i][k] == 9) {
+				m_jewel.push(new jewel_img(i,k));
+				}
+
 			}
 		}
         }
@@ -244,7 +265,12 @@
         drawChessBoard(); //Actually draw the coordinate
 		
 		function AlertDiamondsFound(hero_x,hero_y, diamonds_x, diamonds_y) {
-			if((hero_x == diamonds_x) && (hero_y == diamonds_y)) {
+
+			//if((hero_x == diamonds_x) && (hero_y == diamonds_y)) {
+			//	alert("You earned the Royal Diamonds, and won the game !") ;
+			//	window.location.reload(false); 
+			//}
+			if((hero_jewel >= jewel_count)) {
 				alert("You earned the Royal Diamonds, and won the game !") ;
 				window.location.reload(false); 
 			}
@@ -301,6 +327,10 @@
 		if(map_elements[x][y] == 6){
 			hero_whiffles = 0; //sets whiffles to zero
 	    		map_elements[x][y] = 0; // removes treasurechest
+		}
+		if(map_elements[x][y] == 9){
+			hero_jewel++;  //adds 1 to hero jewels
+			map_elements[x][y] = 0;
 		}
 	}
 
