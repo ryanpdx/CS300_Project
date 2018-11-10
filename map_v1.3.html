@@ -22,17 +22,25 @@
         var position = [0, 0] // Here is the initial position of the hero
         var jewel_position = [5, 5] // location of jewels
 		var hero_energy = 100;//the hero energy set as hero_energy later
+	var hero_whiffles = 100; 
         var canvas_position = [(chess.width/20),(chess.height/20)];
 
 	//cost of energy to remove/travers w/o a tool
 	var tree_cost = 10;
 	var boulder_cost = 15;
 	var blackberry_cost =4;
+	
+	//treasure whiffle gain
+	var treasure1_gain = 100;
 
 	//amount of obstacles to randomly place
 	var tree_count = 5;
 	var boulder_count =5;
 	var blackberry_count =5;
+	var water_count = 10;
+	var treasure1_count =5;
+	var treasure2_count = 5;
+	
 
 	//map bounds
 	var map_size = 25;
@@ -52,20 +60,28 @@
 				map_elements[random_coord()][random_coord()] = 1;
 			}
 
-			for (var i = 0; i < boulder_count; i++){ // sets tree elements
+			for (var i = 0; i < boulder_count; i++){ // sets boulder elements
 				map_elements[random_coord()][random_coord()] = 2;
 			}
-			for (var i = 0; i < blackberry_count; i++){ // sets tree elements
+			for (var i = 0; i < blackberry_count; i++){ // sets blackberry elements
 				map_elements[random_coord()][random_coord()] = 3;
 			}
-			console.log(map_elements);
+			for (var i = 0; i < water_count; i++){
+				map_elements[random_coord()][random_coord()] = 4;
+			}
+			for (var i = 0; i < treasure1_count; i++){
+				map_elements[random_coord()][random_coord()] = 5;
+			}
+			for (var i = 0; i < treasure2_count; i++){
+				map_elements[random_coord()][random_coord()] = 6;
+			}
 		}
 		
 
 
 
 		function random_coord(){ // returns a random map coordnate
-			return Math.round(Math.random() * map_size);
+			return Math.floor(Math.random() * map_size);
 		}
 
 		set_elements(); // calls setting of obstacles
@@ -112,7 +128,24 @@
                 }
             }
         }
-
+	function treasure_img(x,y){
+            treasure = new Image();
+            treasure.src = 'treasure.jpg';
+            var some_x = x*20;
+            var some_y = y*20;
+            treasure.onload = function(){
+                context.drawImage(treasure,some_x,some_y,20,20);
+            }
+        }
+        function water_img(x,y){
+            water = new Image();
+            water.src = 'water.jpg';
+            var some_x = x*20;
+            var some_y = y*20;
+            water.onload = function(){
+                context.drawImage(water,some_x,some_y,20,20);
+            }
+        }
         function tree_img(x,y){
             tree = new Image();
             tree.src = 'tree.jpg';
@@ -140,10 +173,12 @@
                 context.drawImage(blackberry,some_x,some_y,20,20);
             }
         }
-        function draw_obstacles(){
+        function draw_obstacles(){ // places obstacles on map
             var m_tree = [];
 	    var m_boulder = [];
 	    var m_blackberry = [];
+	    var m_water = [];	
+	    var m_treasure1 = [];
 		for(var i = 0; i < map_size; i++){
 			for( var k = 0; k < map_size; k++){
 				if(map_elements[i][k] == 1){
@@ -154,6 +189,15 @@
 				}
 				if(map_elements[i][k] == 3){
                     		m_tree.push(new blackberry_img(i,k));
+				}
+				if(map_elements[i][k] == 4) {
+				m_water.push(new water_img(i,k));
+				}
+				if(map_elements[i][k] == 5) {
+				m_treasure1.push(new treasure_img(i,k));
+				}
+				if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
+				m_treasure1.push(new treasure_img(i,k));
 				}
 			}
 		}
@@ -233,7 +277,7 @@
         
         oneStep(position[0], position[1]);//Actually draw the node
 	
-	function check_obstacle(x,y){ //checks hero location vs the obstacle coordinates 
+	function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates 
 		if(map_elements[x][y] == 1){
 			hero_energy -= tree_cost; // decrements energy by variable
 			map_elements[x][y] = 0;  // sets obsticle to 0 removing obstacle
@@ -246,11 +290,26 @@
 			hero_energy -= blackberry_cost;
 			map_elements[x][y] = 0;
 		}
+	    	if(map_elements[x][y] == 4){ // if obsticle water undo movement
+	    		position[0] = cur_x;
+	    		position[1] = cur_y;
+		}
+		if(map_elements[x][y] == 5){
+			hero_whiffles += treasure1_gain; //adds whiffles
+	    		map_elements[x][y] = 0; // removes treasurechest
+		}
+		if(map_elements[x][y] == 6){
+			hero_whiffles = 0; //sets whiffles to zero
+	    		map_elements[x][y] = 0; // removes treasurechest
+		}
 	}
 
         function moveup(){
             //remove();
             drawChessBoard();
+		var current_x = position[0]; // stores position before move to undo movement
+		var current_y = position[1];
+
 			if(position[1]==0){// this checks if the avatar is near the top
 				position[1] = canvas_position[0]-1; // wrap around screen on the top but should change it to max variable later max_variable
 			}
@@ -258,7 +317,7 @@
 				position[1] -= 1;
 			}
 			--hero_energy;
-			check_obstacle(position[0],position[1]);
+			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
 			oneStep(position[0], position[1]);
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
@@ -267,6 +326,8 @@
         function moveleft(){
             //remove();
             drawChessBoard();
+		var current_x = position[0]; // stores position before move to undo movement
+		var current_y = position[1];
 			if(position[0] == 0){//wraps around the left side
 				position[0] = canvas_position[0]-1 ; // wrap around the screen but should change this into a variable later max_variable
 			}
@@ -274,7 +335,7 @@
 				position[0] -= 1;
 			}
 			--hero_energy;
-			check_obstacle(position[0],position[1]);
+			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
 			oneStep(position[0], position[1]);
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
@@ -284,6 +345,8 @@
         function moveright(){
             //remove();
             drawChessBoard();
+		var current_x = position[0]; // stores position before move to undo movement
+		var current_y = position[1];
 			if(position[0] == canvas_position[0]-1){//wraps around the right side set to max_variable
 				position[0] = 0; // set the wrap to the left side min_variable
 			}
@@ -291,7 +354,7 @@
 				position[0] += 1;
 			}
 			--hero_energy; //jomar energy
-			check_obstacle(position[0],position[1]);
+			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
 		    	oneStep(position[0], position[1]);
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
@@ -300,6 +363,8 @@
         function movedown(){
             //remove();
             drawChessBoard();
+		var current_x = position[0]; // stores position before move to undo movement
+		var current_y = position[1];
 			if(position[1] == canvas_position[0]-1){//set it to max_variable later
 				position[1] = 0;//set it min_variable later
 			}
@@ -307,7 +372,7 @@
 				position[1] += 1;
 			}
 			--hero_energy; //jomar energy
-			check_obstacle(position[0],position[1]);
+			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
             		oneStep(position[0], position[1]);
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
@@ -316,6 +381,7 @@
         function display(){
             pos.innerHTML= position;
             energy.innerHTML= hero_energy;
+	    whiffles.innerHTML= hero_whiffles;
             setTimeout("display()",100);
         }// refresh the current position every 100ms
         display(); // Display the current position
@@ -330,6 +396,7 @@
  	 <button onclick="movedown()">DOWN</button>
   	<h2>Hero current position： <span id='pos'></span></h2>
   	<h2>Energy： <span id='energy'></span></h2>
+	<h2>Whiffles: <span id='whiffles'></span></h2>
 </div> 
 </body>
 </html>
