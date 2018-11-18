@@ -381,9 +381,9 @@
             var buying_axe = confirm("Would you like to buy an Axe to reduce tree energy cost by 7?\n Cost: 50 Whiffles");
             if (buying_axe == true) {
                 if (hero_whiffles >= tool_cost_whiffles) {
+                    map_elements[x][y] = 0;
                     hero_whiffles -= tool_cost_whiffles;
                     tree_cost -= tool_axe;
-                    map_elements[x][y] = 0;
                     tool[0] = true;
                 }
                 else {
@@ -399,9 +399,10 @@
             var weedwacker = confirm("Would you like to buy an weedwacker to reduce bush energy cost by 3?\n Cost: 50 Whiffles");
             if (weedwacker == true) {
                 if (hero_whiffles >= tool_cost_whiffles) {
+                    map_elements[x][y] = 0;
                     hero_whiffles -= tool_cost_whiffles;
                     bush_cost -= tool_weedwaker;
-                    map_elements[x][y] = 0;
+
                     tool[2] = true;
                 }
                 else {
@@ -417,9 +418,10 @@
             var buying_pickaxe = confirm("Would you like to buy an Pickaxe to reduce tree energy cost by 5 ?\n Cost: 50 Whiffles");
             if (buying_pickaxe == true) {
                 if (hero_whiffles >= tool_cost_whiffles) {
+                    map_elements[x][y] = 0;
                     hero_whiffles -= tool_cost_whiffles;
                     boulder_cost -= tool_pickaxe;
-                    map_elements[x][y] = 0;
+
                     tool[1] = true;
                 }
                 else {
@@ -435,6 +437,7 @@
             map_elements[x][y] = 0;
         }
     }
+
         function moveup(){
             //remove();
             drawChessBoard();
