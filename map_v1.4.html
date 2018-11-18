@@ -43,7 +43,11 @@
 	var jewel_count = 10;
 	var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
 	
-
+	//cost of terrain traversal
+	var plains_cost = 1;
+	var bog_cost = 2;
+	var water_cost = 0;
+	
 	//map bounds
 	var map_size = 25;
 	var map_elements = new Array(map_size);	// creates double array to hold map information
@@ -55,7 +59,14 @@
 		}
 	}
 
-	    	
+	var map_terrain = new Array(map_size);// creates double array to hold terrain information
+	for(var i = 0; i < map_size; i++){
+		
+		map_terrain[i] = new Array(map_size);
+		for (var k = 0; k < map_size; k++){
+			map_terrain[i][k] = 0;  // initalises map_terrain to 0
+		}
+	}	
 		
 		function set_elements(){ // sets cordinates of obstacles
 			for (var i = 0; i < tree_count; i++){ // sets tree elements
@@ -83,7 +94,10 @@
 			}
 		}
 		
-
+		function set_terrain(){ //sets the coordinates of terrain
+		map_terrain[1][1] = 1; //set only one place for testing
+		map_terrain[2][2] = 2; //set the water test
+		} 
 
 
 		function random_coord(){ // returns a random map coordnate
@@ -91,7 +105,8 @@
 		}
 
 		set_elements(); // calls setting of obstacles
-
+		set_terrain(); //set terrain
+		
 		function out_of_energy(energy){
             if (energy <= 0){
                 <!-- no energy --> 
@@ -189,6 +204,18 @@
                 context.drawImage(blackberry,some_x,some_y,20,20);
             }
         }
+		
+		function bog_img(x,y){
+			bog = new Image();
+			bog.src = 'bog.jpg';
+			var some_x = x*20;
+            var some_y = y*20;
+            bog.onload = function(){
+                context.drawImage(bog,some_x,some_y,20,20);
+            }
+		}
+			
+			
         function draw_obstacles(){ // places obstacles on map
             var m_tree = [];
 	    var m_boulder = [];
@@ -223,7 +250,22 @@
 			}
 		}
         }
-	
+		
+		function draw_terrain(){
+			var m_bog = [];
+			//var m_water = [];
+			//var m_grass = [];
+			for(var i = 0; i < map_size; i++){
+					for( var k = 0; k < map_size; k++){
+						if(map_terrain[i][k] == 1){
+                    		m_bog.push(new bog_img(i,k)); //pushing that image function into the array
+						}
+						//else if(map_terrain[i][k] == 2){
+						//m_water.push(new water_img(i,k)); //pushing water image
+						//}
+					}
+			}
+		}
     
         function light_img(x,y){
             light = new Image();
@@ -248,7 +290,8 @@
         function drawChessBoard(){
             draw_green(canvas_position[0],canvas_position[1]);
             draw_light_green(canvas_position[0],canvas_position[1]);
-	    draw_obstacles();
+			draw_terrain();
+			draw_obstacles();
             /*
             for(var i=0;i<21;i++){
                 context.strokeStyle="#D6D1D1";

@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Frupal</title>
-	<audio id="death" src="death.mp3"preload="auto"></audio> <!-- audio file from daniel-->
+	<audio id="death" src="death.mp3"preload="auto"></audio> <!-- audio file death-->
+	<audio id="bog" src="bog.mp3"preload="auto"></audio> <!-- audio file bog traverse-->
+	<audio id="water" src="water.mp3"preload="auto"></audio> <!-- audio file water success traverse-->
+	<audio id="water_hazard" src="water_hazard.mp3"preload="auto"></audio> <!-- audio file water fail traverse-->
+	<audio id="rock_hand" src="rock_hand.mp3"preload="auto"></audio> <!-- audio file rock break traverse-->
+	<audio id="blackberry_hand" src="blackberry_hand.mp3"preload="auto"></audio> <!-- audio file cut blackberry bush traverse-->
+	<audio id="tree_hand" src="tree_hand.mp3"preload="auto"></audio> <!-- audio file water success traverse-->
     <style type="text/css">
         canvas{
         display: block;
@@ -24,7 +30,10 @@
 		var hero_energy = 100;//the hero energy set as hero_energy later
 	var hero_whiffles = 100; 
         var canvas_position = [(chess.width/20),(chess.height/20)];
-
+	//key items
+	var hero_boat = false;
+	var binocular = false;
+	
 	//cost of energy to remove/travers w/o a tool
 	var tree_cost = 10;
 	var boulder_cost = 15;
@@ -43,7 +52,11 @@
 	var jewel_count = 10;
 	var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
 	
-
+	//cost of terrain traversal
+	var plains_cost = 1;
+	var bog_cost = 2;
+	var water_cost = 0;
+	
 	//map bounds
 	var map_size = 25;
 	var map_elements = new Array(map_size);	// creates double array to hold map information
@@ -55,7 +68,14 @@
 		}
 	}
 
-	    	
+	var map_terrain = new Array(map_size);// creates double array to hold terrain information
+	for(var i = 0; i < map_size; i++){
+		
+		map_terrain[i] = new Array(map_size);
+		for (var k = 0; k < map_size; k++){
+			map_terrain[i][k] = 0;  // initalises map_terrain to 0
+		}
+	}	
 		
 		function set_elements(){ // sets cordinates of obstacles
 			for (var i = 0; i < tree_count; i++){ // sets tree elements
@@ -68,9 +88,10 @@
 			for (var i = 0; i < blackberry_count; i++){ // sets blackberry elements
 				map_elements[random_coord()][random_coord()] = 3;
 			}
-			for (var i = 0; i < water_count; i++){
+			/*for (var i = 0; i < water_count; i++){
 				map_elements[random_coord()][random_coord()] = 4;
 			}
+			*/
 			for (var i = 0; i < treasure1_count; i++){
 				map_elements[random_coord()][random_coord()] = 5;
 			}
@@ -83,7 +104,37 @@
 			}
 		}
 		
+		function set_terrain(){ //sets the coordinates of terrain
+			for(var i = 0; i < map_size; ++i){
+			map_terrain[12][i] = 1;
+			map_terrain[16][i] = 1;
+			}
+			
+			for(var i = 0; i < map_size; ++i){
+				map_terrain[13][i] = 2;
+				map_terrain[14][i] = 2;
+				map_terrain[15][i] = 2;
+			}
+			
+			
+			for(var i = 0; i < map_size; ++i){
 
+				map_terrain[i][2] = 1;
+				map_terrain[i][5] = 1;
+			}
+			
+			for(var i = 0; i < map_size; ++i){
+				map_terrain[i][3] = 2;
+				map_terrain[i][4] = 2;
+			}
+			
+			for(var i = 0; i < map_size; ++i){
+				map_terrain[13][i] = 2;
+				map_terrain[14][i] = 2;
+				map_terrain[15][i] = 2;
+			}
+		}
+		
 
 
 		function random_coord(){ // returns a random map coordnate
@@ -91,7 +142,8 @@
 		}
 
 		set_elements(); // calls setting of obstacles
-
+		set_terrain(); //set terrain
+		
 		function out_of_energy(energy){
             if (energy <= 0){
                 <!-- no energy --> 
@@ -189,11 +241,23 @@
                 context.drawImage(blackberry,some_x,some_y,20,20);
             }
         }
+		
+		function bog_img(x,y){
+			bog = new Image();
+			bog.src = 'bog.jpg';
+			var some_x = x*20;
+            var some_y = y*20;
+            bog.onload = function(){
+                context.drawImage(bog,some_x,some_y,20,20);
+            }
+		}
+			
+			
         function draw_obstacles(){ // places obstacles on map
             var m_tree = [];
 	    var m_boulder = [];
 	    var m_blackberry = [];
-	    var m_water = [];	
+	    //var m_water = [];	
 	    var m_treasure1 = [];
 	    var m_jewel = [];
 		for(var i = 0; i < map_size; i++){
@@ -207,9 +271,10 @@
 				if(map_elements[i][k] == 3){
                     		m_tree.push(new blackberry_img(i,k));
 				}
-				if(map_elements[i][k] == 4) {
+				/*if(map_elements[i][k] == 4) {
 				m_water.push(new water_img(i,k));
 				}
+				*/
 				if(map_elements[i][k] == 5) {
 				m_treasure1.push(new treasure_img(i,k));
 				}
@@ -223,7 +288,22 @@
 			}
 		}
         }
-	
+		
+		function draw_terrain(){
+			var m_bog = [];
+			var m_water = [];
+			//var m_grass = [];
+			for(var i = 0; i < map_size; i++){
+					for( var k = 0; k < map_size; k++){
+						if(map_terrain[i][k] == 1){
+                    		m_bog.push(new bog_img(i,k)); //pushing that image function into the array
+						}
+						else if(map_terrain[i][k] == 2){
+						m_water.push(new water_img(i,k)); //pushing water image
+						}
+					}
+			}
+		}
     
         function light_img(x,y){
             light = new Image();
@@ -248,7 +328,8 @@
         function drawChessBoard(){
             draw_green(canvas_position[0],canvas_position[1]);
             draw_light_green(canvas_position[0],canvas_position[1]);
-	    draw_obstacles();
+			draw_terrain();
+			draw_obstacles();
             /*
             for(var i=0;i<21;i++){
                 context.strokeStyle="#D6D1D1";
@@ -306,20 +387,24 @@
 	function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates 
 		if(map_elements[x][y] == 1){
 			hero_energy -= tree_cost; // decrements energy by variable
+			document.getElementById('tree_hand').play();
 			map_elements[x][y] = 0;  // sets obsticle to 0 removing obstacle
 		}
 		if(map_elements[x][y] == 2){
 			hero_energy -= boulder_cost;
+			document.getElementById('rock_hand').play();
 			map_elements[x][y] = 0;
 		}
 		if(map_elements[x][y] == 3){
 			hero_energy -= blackberry_cost;
+			document.getElementById('blackberry_hand').play();
 			map_elements[x][y] = 0;
 		}
-	    	if(map_elements[x][y] == 4){ // if obsticle water undo movement
+	    /*if(map_elements[x][y] == 4){ // if obsticle water undo movement
 	    		position[0] = cur_x;
 	    		position[1] = cur_y;
 		}
+		*/
 		if(map_elements[x][y] == 5){
 			hero_whiffles += treasure1_gain; //adds whiffles
 	    		map_elements[x][y] = 0; // removes treasurechest
@@ -331,6 +416,34 @@
 		if(map_elements[x][y] == 9){
 			hero_jewel++;  //adds 1 to hero jewels
 			map_elements[x][y] = 0;
+		}
+	}
+	function check_terrain(x,y,cur_x,cur_y){
+		if(map_terrain[x][y] == 0){
+			hero_energy -= plains_cost; // decrements energy by variable
+		}
+		else if(map_terrain[x][y] == 1){
+			document.getElementById('bog').play();
+			hero_energy -= bog_cost; // decrements energy by variable
+		}
+		else if(map_terrain[x][y] == 2){
+	    		//position[0] = cur_x;
+	    		//position[1] = cur_y;
+				//document.getElementById('water_hazard').play();//fell in water sound
+				hero_energy -= water_cost;
+				document.getElementById('water').play();//fell in water sound
+				/*
+				if(map_terrain[cur_x][cur_y] == 0){	
+					hero_energy -= grass_cost;
+					document.getElementById('water_hazard').play();//fell in water sound
+				}
+				else if(map_terrain[cur_x][cur_y] == 1){
+					hero_energy -= bog_cost; // decrements energy by bog
+					document.getElementById('water_hazard').play(); //player fell in water sound
+				}
+				else
+					document.getElementById('water_hazard').play();//play fell in water sound
+					*/
 		}
 	}
 
@@ -346,7 +459,7 @@
 			else{// keep moving up
 				position[1] -= 1;
 			}
-			--hero_energy;
+			check_terrain(position[0],position[1],current_x,current_y);
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
 			oneStep(position[0], position[1]);
@@ -364,7 +477,7 @@
 			else{
 				position[0] -= 1;
 			}
-			--hero_energy;
+			check_terrain(position[0],position[1],current_x,current_y);
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
 			oneStep(position[0], position[1]);
@@ -383,7 +496,7 @@
 			else{
 				position[0] += 1;
 			}
-			--hero_energy; //jomar energy
+			check_terrain(position[0],position[1],current_x,current_y); //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
 		    	oneStep(position[0], position[1]);
@@ -401,7 +514,7 @@
 			else{
 				position[1] += 1;
 			}
-			--hero_energy; //jomar energy
+			check_terrain(position[0],position[1],current_x,current_y); //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
             		oneStep(position[0], position[1]);
