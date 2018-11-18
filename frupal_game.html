@@ -2,15 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Frupal</title>
 	<audio id="death" src="death.mp3"preload="auto"></audio> <!-- audio file from daniel-->
     <style type="text/css">
-        canvas{
-        display: block;
-        margin: 50px auto;
-        
+        canvas {
+        	display: block;
+        	margin: 50px auto;
+  			Hero current
         }
     </style>
+	<h2> Fupal </h2>
+  	Hero current position： <span id='pos'></span>
+  	Energy： <span id='energy'></span>
+	Whiffles: <span id='whiffles'></span>
 	</head>
 <body onload="display();"> 
     <canvas id="mycanvas" width="500px" height="500px"></canvas>
@@ -19,42 +22,41 @@
         var chess = document.getElementById("mycanvas");
         var context = chess.getContext('2d');
         var me = true;
-        var position = [0, 0] // Here is the initial position of the hero
-        var jewel_position = [5, 5] // location of jewels
+        var position = [0, 0]; // Here is the initial position of the hero
+        var jewel_position = [5, 5]; // location of jewels
 		var hero_energy = 100;//the hero energy set as hero_energy later
-	var hero_whiffles = 100; 
+		var hero_whiffles = 100; 
         var canvas_position = [(chess.width/20),(chess.height/20)];
 
-	//cost of energy to remove/travers w/o a tool
-	var tree_cost = 10;
-	var boulder_cost = 15;
-	var blackberry_cost =4;
-	
-	//treasure whiffle gain
-	var treasure1_gain = 100;
-
-	//amount of obstacles to randomly place
-	var tree_count = 5;
-	var boulder_count =5;
-	var blackberry_count =5;
-	var water_count = 10;
-	var treasure1_count =5;
-	var treasure2_count = 5;
-	var jewel_count = 10;
-	var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
-	
-
-	//map bounds
-	var map_size = 25;
-	var map_elements = new Array(map_size);	// creates double array to hold map information
-	for(var i = 0; i < map_size; i++){
+		//cost of energy to remove/travers w/o a tool
+		var tree_cost = 10;
+		var boulder_cost = 15;
+		var blackberry_cost = 4;
 		
-		map_elements[i] = new Array(map_size);
-		for (var k = 0; k < map_size; k++){
-			map_elements[i][k] = 0;  // initalises map_elements to 0
-		}
-	}
+		//treasure whiffle gain
+		var treasure1_gain = 100;
 
+		//amount of obstacles to randomly place
+		var tree_count = 5;
+		var boulder_count = 5;
+		var blackberry_count = 5;
+		var water_count = 10;
+		var treasure1_count = 5;
+		var treasure2_count = 5;
+		var jewel_count = 10;
+		var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
+		
+
+		//map bounds
+		var map_size = 25;
+		var map_elements = new Array(map_size);	// creates double array to hold map information
+		for(var i = 0; i < map_size; i++){
+			
+			map_elements[i] = new Array(map_size);
+			for (var k = 0; k < map_size; k++){
+				map_elements[i][k] = 0;  // initalises map_elements to 0
+			}
+		}
 	    	
 		
 		function set_elements(){ // sets cordinates of obstacles
@@ -134,7 +136,7 @@
                 }
             }
         }
-	function treasure_img(x,y){
+		function treasure_img(x,y){
             treasure = new Image();
             treasure.src = 'treasure.jpg';
             var some_x = x*20;
@@ -191,37 +193,37 @@
         }
         function draw_obstacles(){ // places obstacles on map
             var m_tree = [];
-	    var m_boulder = [];
-	    var m_blackberry = [];
-	    var m_water = [];	
-	    var m_treasure1 = [];
-	    var m_jewel = [];
-		for(var i = 0; i < map_size; i++){
-			for( var k = 0; k < map_size; k++){
-				if(map_elements[i][k] == 1){
-                    		m_tree.push(new tree_img(i,k)); //pushing that image function into the array
-				}
-				if(map_elements[i][k] == 2){
-                    		m_boulder.push(new boulder_img(i,k));
-				}
-				if(map_elements[i][k] == 3){
-                    		m_tree.push(new blackberry_img(i,k));
-				}
-				if(map_elements[i][k] == 4) {
-				m_water.push(new water_img(i,k));
-				}
-				if(map_elements[i][k] == 5) {
-				m_treasure1.push(new treasure_img(i,k));
-				}
-				if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
-				m_treasure1.push(new treasure_img(i,k));
-				}
-				if(map_elements[i][k] == 9) {
-				m_jewel.push(new jewel_img(i,k));
-				}
+			var m_boulder = [];
+			var m_blackberry = [];
+			var m_water = [];	
+			var m_treasure1 = [];
+			var m_jewel = [];
+			for(var i = 0; i < map_size; i++){
+				for( var k = 0; k < map_size; k++){
+					if(map_elements[i][k] == 1){
+								m_tree.push(new tree_img(i,k)); //pushing that image function into the array
+					}
+					if(map_elements[i][k] == 2){
+								m_boulder.push(new boulder_img(i,k));
+					}
+					if(map_elements[i][k] == 3){
+								m_tree.push(new blackberry_img(i,k));
+					}
+					if(map_elements[i][k] == 4) {
+					m_water.push(new water_img(i,k));
+					}
+					if(map_elements[i][k] == 5) {
+					m_treasure1.push(new treasure_img(i,k));
+					}
+					if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
+					m_treasure1.push(new treasure_img(i,k));
+					}
+					if(map_elements[i][k] == 9) {
+					m_jewel.push(new jewel_img(i,k));
+					}
 
+				}
 			}
-		}
         }
 	
     
@@ -303,36 +305,36 @@
         
         oneStep(position[0], position[1]);//Actually draw the node
 	
-	function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates 
-		if(map_elements[x][y] == 1){
-			hero_energy -= tree_cost; // decrements energy by variable
-			map_elements[x][y] = 0;  // sets obsticle to 0 removing obstacle
+		function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates 
+			if(map_elements[x][y] == 1){
+				hero_energy -= tree_cost; // decrements energy by variable
+				map_elements[x][y] = 0;  // sets obsticle to 0 removing obstacle
+			}
+			if(map_elements[x][y] == 2){
+				hero_energy -= boulder_cost;
+				map_elements[x][y] = 0;
+			}
+			if(map_elements[x][y] == 3){
+				hero_energy -= blackberry_cost;
+				map_elements[x][y] = 0;
+			}
+				if(map_elements[x][y] == 4){ // if obsticle water undo movement
+					position[0] = cur_x;
+					position[1] = cur_y;
+			}
+			if(map_elements[x][y] == 5){
+				hero_whiffles += treasure1_gain; //adds whiffles
+					map_elements[x][y] = 0; // removes treasurechest
+			}
+			if(map_elements[x][y] == 6){
+				hero_whiffles = 0; //sets whiffles to zero
+					map_elements[x][y] = 0; // removes treasurechest
+			}
+			if(map_elements[x][y] == 9){
+				hero_jewel++;  //adds 1 to hero jewels
+				map_elements[x][y] = 0;
+			}
 		}
-		if(map_elements[x][y] == 2){
-			hero_energy -= boulder_cost;
-			map_elements[x][y] = 0;
-		}
-		if(map_elements[x][y] == 3){
-			hero_energy -= blackberry_cost;
-			map_elements[x][y] = 0;
-		}
-	    	if(map_elements[x][y] == 4){ // if obsticle water undo movement
-	    		position[0] = cur_x;
-	    		position[1] = cur_y;
-		}
-		if(map_elements[x][y] == 5){
-			hero_whiffles += treasure1_gain; //adds whiffles
-	    		map_elements[x][y] = 0; // removes treasurechest
-		}
-		if(map_elements[x][y] == 6){
-			hero_whiffles = 0; //sets whiffles to zero
-	    		map_elements[x][y] = 0; // removes treasurechest
-		}
-		if(map_elements[x][y] == 9){
-			hero_jewel++;  //adds 1 to hero jewels
-			map_elements[x][y] = 0;
-		}
-	}
 
         function moveup(){
             //remove();
@@ -411,22 +413,40 @@
         function display(){
             pos.innerHTML= position;
             energy.innerHTML= hero_energy;
-	    whiffles.innerHTML= hero_whiffles;
+	   		whiffles.innerHTML= hero_whiffles;
             setTimeout("display()",100);
         }// refresh the current position every 100ms
         display(); // Display the current position
         
-		document.forms[0].hero_energy.value =hero_energy;
-	
+
+		/**
+		 * old IE: attachEvent
+		 * Firefox, Chrome, or modern browsers: addEventListener
+		 */
+		function _addEventListener(evt, element, fn) {
+		  if (window.addEventListener) {
+			element.addEventListener(evt, fn, false);
+		  }
+		  else {
+			element.attachEvent('on'+evt, fn);
+		  }
+		}
+
+		function handleKeyboardEvent(evt) {
+		  if (!evt) {evt = window.event;} // for old IE compatible
+		  var keycode = evt.keyCode || evt.which; // also for cross-browser compatible
+
+			if(keycode == 37)
+			  moveleft();
+			else if(keycode == 38)
+			  moveup();
+			else if(keycode == 39)
+			  moveright();
+			else if(keycode == 40)
+			  movedown();
+		}
+
+		_addEventListener('keydown', document, handleKeyboardEvent);
 </script>
-    <div style="text-align:center;width:480px;">
-  	<button onclick="moveup()">UP</button><br><br>
-  	<button onclick="moveleft()">LEFT</button>
-  	<button onclick="moveright()">RIGHT</button><br><br>
- 	 <button onclick="movedown()">DOWN</button>
-  	<h2>Hero current position： <span id='pos'></span></h2>
-  	<h2>Energy： <span id='energy'></span></h2>
-	<h2>Whiffles: <span id='whiffles'></span></h2>
-</div> 
 </body>
 </html>
