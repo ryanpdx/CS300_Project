@@ -10,14 +10,13 @@
         canvas {
         	display: block;
         	margin: 50px auto;
-  			Hero current
         }
     </style>
 	<h2> Fupal </h2>
-  	Hero current position： <span id='pos'></span>
-  	Energy： <span id='energy'></span>
+  	Hero current position： <span id='pos'></span>, 
+  	Energy：<progress id="health" value="100" max="100"></progress> <span id='energy'></span>, 
 	Whiffles: <span id='whiffles'></span>
-	</head>
+</head>
 <body onload="display();"> 
     <canvas id="mycanvas" width="500px" height="500px"></canvas>
     
@@ -352,6 +351,8 @@
 			else{// keep moving up
 				position[1] -= 1;
 			}
+			let health = document.getElementById("health")
+			health.value -= 1;
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
@@ -370,6 +371,8 @@
 			else{
 				position[0] -= 1;
 			}
+			let health = document.getElementById("health")
+			health.value -= 1;
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
@@ -389,6 +392,8 @@
 			else{
 				position[0] += 1;
 			}
+			let health = document.getElementById("health")
+			health.value -= 1;
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
@@ -407,6 +412,8 @@
 			else{
 				position[1] += 1;
 			}
+			let health = document.getElementById("health")
+			health.value -= 1;
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
@@ -451,6 +458,13 @@
 		}
 
 		_addEventListener('keydown', document, handleKeyboardEvent);
+
+		function insertText(){
+    		document.getElementById('someId').InnerHTML = splitText;
+		}
 </script>
+
+<body onload="insertText()">
+	<a href = frupal_game.html id="hero_energy"></a>
 </body>
 </html>
