@@ -74,7 +74,7 @@
 		var treasure1_count = 5;
 		var treasure2_count = 5;
         var power_bar_count = 5;
-        var binoculars_count = 3;
+        var binoculars_count =10;
         var tool_pickaxe_count = 1;
 	    var tool_axe_count = 1;
 	    var tool_weedwacker_count = 1;
@@ -181,7 +181,6 @@
 			}
 		}
 		
-
 
 
 		function random_coord(){ // returns a random map coordnate
@@ -453,6 +452,31 @@
             draw_green(canvas_position[0],canvas_position[1]);
             draw_light_green(canvas_position[0],canvas_position[1]);
 	        draw_obstacles();
+            addposition(position[0]-1,position[1]+1);
+            addposition(position[0]-1,position[1]);
+            addposition(position[0]-1,position[1]-1);
+            addposition(position[0]+1,position[1]+1);
+            addposition(position[0]+1,position[1]);
+            addposition(position[0]+1,position[1]-1);
+            addposition(position[0],position[1]+1);
+            addposition(position[0],position[1]-1);
+            if(bino) {
+                addposition(position[0],position[1]+2);
+                addposition(position[0],position[1]-2);
+                addposition(position[0]+1,position[1]+2);
+                addposition(position[0]+1,position[1]-2);
+                addposition(position[0]+2,position[1]+2);
+                addposition(position[0]+2,position[1]-2);
+                addposition(position[0]-1,position[1]+2);
+                addposition(position[0]-1,position[1]-2);
+                addposition(position[0]-2,position[1]+2);
+                addposition(position[0]-2,position[1]-2);
+                addposition(position[0]+2,position[1]+1);
+                addposition(position[0]+2,position[1]-1);
+                addposition(position[0]-2,position[1]+1);
+                addposition(position[0]-2,position[1]-1);
+                addposition(position[0]+2,position[1]);
+            }
             draw_black(canvas_position[0], canvas_position[1]);
             /*
             for(var i=0;i<21;i++){
@@ -496,7 +520,7 @@
             hero = new Image();
             hero.src = 'Hero.jpg';
             hero.onload = function(){
-                context.drawImage(hero,x*20,y*20,20,20);
+            context.drawImage(hero,x*20,y*20,20,20);      
             }
            
         }
@@ -620,8 +644,8 @@
 		}
 
         function moveup(){
-            
         //add the previous position to the map record
+        /*
         if(bino){
             if(map_elements[position[0]][position[1]-1]==4){
                 }
@@ -642,7 +666,7 @@
                 addposition(position[0]+2,position[1]-1);
                 addposition(position[0]-2,position[1]-1);
                 addposition(position[0],position[1]);
-                addposition(position[0]+1,position[1]);
+                addposition (position[0]+1,position[1]);
                 addposition(position[0]-1,position[1]);
                 addposition(position[0]+2,position[1]);
                 addposition(position[0]-2,position[1]);
@@ -674,34 +698,36 @@
             addposition(position[0]+1,position[1]-1);
             addposition(position[0]-1,position[1]-1);
             addposition(position[0],position[1]-2);
+            addposition(position[0]+1,position[1]-2);
+            addposition(position[0]-1,position[1]-2);
             }
         }
-            
+          */  
             //remove();
-            drawChessBoard();
-		var current_x = position[0]; // stores position before move to undo movement
-		var current_y = position[1];
             
-            
-
+		    var current_x = position[0]; // stores position before move to undo movement
+		    var current_y = position[1];
 			if(position[1]==0){// this checks if the avatar is near the top
 				position[1] = canvas_position[0]-1; // wrap around screen on the top but should change it to max variable later max_variable
 			}
 			else{// keep moving up
 				position[1] -= 1;
 			}
+            drawChessBoard();
+            oneStep(position[0], position[1]);
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
-			oneStep(position[0], position[1]);
+			
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
         function moveleft(){
+            /*
         //add the previous position to the map record
         if(bino){    
-        if(map_elements[position[0]-1][position[1]]==4){
-                }
+            if(map_elements[position[0]-1][position[1]]==4){
+            }
             else if(bino_count<=4){
                 addposition(position[0]-3,position[1]+1);
                 addposition(position[0]-3,position[1]-1);
@@ -751,30 +777,34 @@
             addposition(position[0]-1,position[1]-1);
             addposition(position[0]-1,position[1]);
             addposition(position[0]-2,position[1]);
+            addposition(position[0]-2,position[1]+1);
+            addposition(position[0]-2,position[1]-1);
             }
         }
-        
+        */
             //remove();
-            drawChessBoard();
-		var current_x = position[0]; // stores position before move to undo movement
-		var current_y = position[1];
+            
+		    var current_x = position[0]; // stores position before move to undo movement
+		    var current_y = position[1];
             
 			if(position[0] == 0){//wraps around the left side
-				position[0] = canvas_position[0]-1 ; // wrap around the screen but should change this into a variable later max_variable
+				position[0] = canvas_position[1]-1 ; // wrap around the screen but should change this into a variable later max_variable
 			}
 			else{
 				position[0] -= 1;
 			}
+            drawChessBoard();
+            oneStep(position[0], position[1]);
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
-			oneStep(position[0], position[1]);
+			
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }
 
         function moveright(){
-            
+            /*
         //add the previous position to the map record
         if(bino){
         if(map_elements[position[0]+1][position[1]]==4){
@@ -828,28 +858,33 @@
             addposition(position[0]+1,position[1]-1);
             addposition(position[0]+1,position[1]);
             addposition(position[0]+2,position[1]);
+            addposition(position[0]+2,position[1]-1);
+            addposition(position[0]+2,position[1]+1);
             }
         }
             //remove();
-            drawChessBoard();
+            */
 		var current_x = position[0]; // stores position before move to undo movement
 		var current_y = position[1];
             
-			if(position[0] == canvas_position[0]-1){//wraps around the right side set to max_variable
+			if(position[0] == canvas_position[1]-1){//wraps around the right side set to max_variable
 				position[0] = 0; // set the wrap to the left side min_variable
 			}
 			else{
 				position[0] += 1;
 			}
+            drawChessBoard();
+            oneStep(position[0], position[1]);
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
-		    	oneStep(position[0], position[1]);
+		    	
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 						refresh_info();
         }
         function movedown(){
         
+        /*
         //add the previous position to the map record
         if(bino){
         if(map_elements[position[0]][position[1]+1]==4){
@@ -903,12 +938,14 @@
             addposition(position[0]+1,position[1]+1);
             addposition(position[0]-1,position[1]+1);
             addposition(position[0],position[1]+2);
+            addposition(position[0]-1,position[1]+2);
+            addposition(position[0]+1,position[1]+2);
             }
         }
             
-        
+        */
             //remove();
-            drawChessBoard();
+           
 		var current_x = position[0]; // stores position before move to undo movement
 		var current_y = position[1];
             
@@ -918,10 +955,12 @@
 			else{
 				position[1] += 1;
 			}
+            drawChessBoard();
+            oneStep(position[0], position[1]);
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
-            		oneStep(position[0], position[1]);
+            		
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 					refresh_info();
         }
