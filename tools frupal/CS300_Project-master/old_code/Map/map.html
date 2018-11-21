@@ -1,0 +1,77 @@
+<html>
+	<!--
+	 Author: Kevin Pham
+	 Class: CS300
+	 Purpose: This is the part of the map
+	-->
+	<head>
+	<title><Frupple</title>
+
+	</head>
+
+	<body>
+		<canvas id="myCanvas" width="250" height="250"></canvas>
+		<br></br>
+			
+		
+		<button onclick="tree_img()"> Tree</button> <!-- nothing to do with the map -->
+		<button onclick="bush_img()"> Bush</button> <!-- nothing to do with the map -->
+
+	<script>
+		//Creating the Canvas
+		var canvas = document.getElementById("myCanvas");
+		var context = canvas.getContext('2d');
+			context.beginPath();
+			context.rect(0,0,canvas.width,canvas.height);
+			context.fillStyle = "green";
+			context.fill();
+
+		//Setting up the Units
+		var canvas_x = canvas.width/10;
+		var canvas_y = canvas.height/10;
+
+		multi_grass(canvas_x,canvas_y);
+
+		//1 image of grass and creating it upon the canvas
+		function grass_img(x,y){
+			grass = new Image();
+			grass.src = 'Green.jpg';
+			var some_x = x*10;
+			var some_y = y*10;
+			grass.onload = function(){
+				context.drawImage(grass,some_x,some_y,10,10);
+			}	
+		}
+		//
+		function multi_grass(c_x,c_y){
+			var m_grass = []; //creating an array for the objects so that it's object position is it's own thing.
+			for (y = 1 ; y <= c_y; y+=2){				
+				for (x=0; x <= c_x; x+=2){
+					m_grass.push(new grass_img(x,y-1)); //pushing that image function into the array
+					m_grass.push(new grass_img(x-1,y));
+				}
+			}
+		}
+		
+		//Adding a tree image to the canvas(nothing to do with the map)
+		function tree_img(){
+			tree = new Image();
+			tree.src = 'Tree.jpg';
+			tree.onload = function(){
+				context.drawImage(tree,100,170,10,10);
+			}
+		}
+		function bush_img(){
+			bush = new Image();
+			bush.src = 'bush.jpg';
+			bush.onload = function(){
+				context.drawImage(bush,130,130,10,10);
+		
+			}
+		}
+
+	</script>
+
+	</body>
+</html>
+

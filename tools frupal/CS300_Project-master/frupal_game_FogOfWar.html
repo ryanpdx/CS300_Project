@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<!-- CS300 group E -->
-<!-- Daniel Lee, Ching-Wei Lin, John Lorenz, Ryan Medick, Jomar Mullen, Tu Nguyen, Kevin Pham -->
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-	<audio id="death" src="death.mp3"preload="auto"></audio>
+	<audio id="death" src="death.mp3"preload="auto"></audio> <!-- audio file from daniel-->
     <style type="text/css">
         canvas {
         	display: block;
         	margin: 50px auto;
+  			Hero current
         }
     </style>
 	<h2> Fupal </h2>
-  	Hero current position： <span id='pos'></span>, 
-  	Energy：<progress id="health" value="100" max="100"></progress> <span id='energy'></span>, 
+  	Hero current position： <span id='pos'></span>
+  	Energy： <span id='energy'></span>
 	Whiffles: <span id='whiffles'></span>
-</head>
+	</head>
 <body onload="display();"> 
     <canvas id="mycanvas" width="500px" height="500px"></canvas>
     
     <script type="text/javascript">
-		document.body.style.backgroundColor = "#006699";
         var chess = document.getElementById("mycanvas");
         var context = chess.getContext('2d');
         var me = true;
@@ -30,24 +27,23 @@
 		var hero_energy = 100;//the hero energy set as hero_energy later
 		var hero_whiffles = 100; 
         var canvas_position = [(chess.width/20),(chess.height/20)];
+        
+        //arrays of position which has already discovered
+        var record_x = [position[0]];
+        var record_y = [position[1]];
+        
+        //verify if the hero gets a binoculars
+        var bino = false;
+        var bino_count = 0;
 
 		//cost of energy to remove/travers w/o a tool
 		var tree_cost = 10;
 		var boulder_cost = 15;
 		var blackberry_cost = 4;
-
-		var bog_cost = 1; // in addition to normal deduction
+		
 		//treasure whiffle gain
 		var treasure1_gain = 100;
-		
-		//arrays of position which has already discovered
-        var record_x = [position[0]];
-        var record_y = [position[1]];
-		
-		//verify if the hero gets a binoculars
-        var bino = true;
-        var bino_count = 5;
-		
+
 		//amount of obstacles to randomly place
 		var tree_count = 5;
 		var boulder_count = 5;
@@ -58,7 +54,6 @@
 		var jewel_count = 10;
 		var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
 		
-		var bog_count = 20;
 
 		//map bounds
 		var map_size = 25;
@@ -91,10 +86,6 @@
 			}
 			for (var i = 0; i < treasure2_count; i++){
 				map_elements[random_coord()][random_coord()] = 6;
-			}
-			
-			for (var i = 0; i < bog_count; i++){
-				map_elements[random_coord()][random_coord()] = 7;
 			}
 			// jewels need to be last value as current implementation does not check if another object is in that location
 			for (var i = 0; i < jewel_count; i++){ 
@@ -208,18 +199,52 @@
                 context.drawImage(blackberry,some_x,some_y,20,20);
             }
         }
+        function draw_obstacles(){ // places obstacles on map
+            var m_tree = [];
+			var m_boulder = [];
+			var m_blackberry = [];
+			var m_water = [];	
+			var m_treasure1 = [];
+			var m_jewel = [];
+			for(var i = 0; i < map_size; i++){
+				for( var k = 0; k < map_size; k++){
+					if(map_elements[i][k] == 1){
+								m_tree.push(new tree_img(i,k)); //pushing that image function into the array
+					}
+					if(map_elements[i][k] == 2){
+								m_boulder.push(new boulder_img(i,k));
+					}
+					if(map_elements[i][k] == 3){
+								m_tree.push(new blackberry_img(i,k));
+					}
+					if(map_elements[i][k] == 4) {
+					m_water.push(new water_img(i,k));
+					}
+					if(map_elements[i][k] == 5) {
+					m_treasure1.push(new treasure_img(i,k));
+					}
+					if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
+					m_treasure1.push(new treasure_img(i,k));
+					}
+					if(map_elements[i][k] == 9) {
+					m_jewel.push(new jewel_img(i,k));
+					}
 
-		function bog_img(x,y){
-		 bog = new Image();
-            bog.src = 'bog.jpg';
+				}
+			}
+        }
+	
+    
+        function light_img(x,y){
+            light = new Image();
+            light.src = 'light_green.jpg';
             var some_x = x*20;
             var some_y = y*20;
-            bog.onload = function(){
-                context.drawImage(bog,some_x,some_y,20,20);
+            light.onload = function(){
+                context.drawImage(light,some_x,some_y,20,20);
             }
         }
-		
-		//Chingwei start
+        //Chingwei start
         //black blocks for fog of war
         function black_img(x,y){
             black = new Image();
@@ -259,56 +284,6 @@
         }
         //Chingwei end
         
-        function draw_obstacles(){ // places obstacles on map
-            var m_tree = [];
-			var m_boulder = [];
-			var m_blackberry = [];
-			var m_water = [];	
-			var m_treasure1 = [];
-			var m_jewel = [];
-			var m_bog = [];
-			for(var i = 0; i < map_size; i++){
-				for( var k = 0; k < map_size; k++){
-					if(map_elements[i][k] == 1){
-								m_tree.push(new tree_img(i,k)); //pushing that image function into the array
-					}
-					if(map_elements[i][k] == 2){
-								m_boulder.push(new boulder_img(i,k));
-					}
-					if(map_elements[i][k] == 3){
-								m_tree.push(new blackberry_img(i,k));
-					}
-					if(map_elements[i][k] == 4) {
-					m_water.push(new water_img(i,k));
-					}
-					if(map_elements[i][k] == 5) {
-					m_treasure1.push(new treasure_img(i,k));
-					}
-					if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
-					m_treasure1.push(new treasure_img(i,k));
-					}
-					if(map_elements[i][k] == 7) { //pushes bog
-					m_bog.push(new bog_img(i,k));
-					}
-					if(map_elements[i][k] == 9) {
-					m_jewel.push(new jewel_img(i,k));
-					}
-
-				}
-			}
-        }
-	
-    
-        function light_img(x,y){
-            light = new Image();
-            light.src = 'light_green.jpg';
-            var some_x = x*20;
-            var some_y = y*20;
-            light.onload = function(){
-                context.drawImage(light,some_x,some_y,20,20);
-            }
-        }
-    
         function draw_light_green(c_x,c_y){
             var m_light = []; //creating an array for the objects so that it's object position is it's own thing.
             for (y = 1 ; y <= c_y; y+=2){
@@ -322,8 +297,8 @@
         function drawChessBoard(){
             draw_green(canvas_position[0],canvas_position[1]);
             draw_light_green(canvas_position[0],canvas_position[1]);
-	    draw_obstacles();
-		            draw_black(canvas_position[0], canvas_position[1]);
+	        draw_obstacles();
+            draw_black(canvas_position[0], canvas_position[1]);
             /*
             for(var i=0;i<21;i++){
                 context.strokeStyle="#D6D1D1";
@@ -403,10 +378,6 @@
 				hero_whiffles = 0; //sets whiffles to zero
 					map_elements[x][y] = 0; // removes treasurechest
 			}
-			
-			if(map_elements[x][y] == 7){
-				hero_energy -= bog_cost;
-			}
 			if(map_elements[x][y] == 9){
 				hero_jewel++;  //adds 1 to hero jewels
 				map_elements[x][y] = 0;
@@ -414,8 +385,8 @@
 		}
 
         function moveup(){
-		
-		//add the previous position to the map record
+            
+        //add the previous position to the map record
         if(bino){
             if(map_elements[position[0]][position[1]-1]==4){
                 }
@@ -470,10 +441,13 @@
             addposition(position[0],position[1]-2);
             }
         }
+            
             //remove();
             drawChessBoard();
 		var current_x = position[0]; // stores position before move to undo movement
 		var current_y = position[1];
+            
+            
 
 			if(position[1]==0){// this checks if the avatar is near the top
 				position[1] = canvas_position[0]-1; // wrap around screen on the top but should change it to max variable later max_variable
@@ -481,8 +455,6 @@
 			else{// keep moving up
 				position[1] -= 1;
 			}
-			let health = document.getElementById("health")
-			health.value -= 1;
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
@@ -491,8 +463,7 @@
 			refresh_info();
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
         function moveleft(){
-		
-		//add the previous position to the map record
+        //add the previous position to the map record
         if(bino){    
         if(map_elements[position[0]-1][position[1]]==4){
                 }
@@ -547,18 +518,18 @@
             addposition(position[0]-2,position[1]);
             }
         }
+        
             //remove();
             drawChessBoard();
 		var current_x = position[0]; // stores position before move to undo movement
 		var current_y = position[1];
+            
 			if(position[0] == 0){//wraps around the left side
 				position[0] = canvas_position[0]-1 ; // wrap around the screen but should change this into a variable later max_variable
 			}
 			else{
 				position[0] -= 1;
 			}
-			let health = document.getElementById("health")
-			health.value -= 1;
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);
@@ -568,7 +539,9 @@
         }
 
         function moveright(){
-		if(bino){
+            
+        //add the previous position to the map record
+        if(bino){
         if(map_elements[position[0]+1][position[1]]==4){
                 }
             else if(bino_count<=4){
@@ -626,14 +599,13 @@
             drawChessBoard();
 		var current_x = position[0]; // stores position before move to undo movement
 		var current_y = position[1];
+            
 			if(position[0] == canvas_position[0]-1){//wraps around the right side set to max_variable
 				position[0] = 0; // set the wrap to the left side min_variable
 			}
 			else{
 				position[0] += 1;
 			}
-			let health = document.getElementById("health")
-			health.value -= 1;
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
@@ -642,7 +614,9 @@
 						refresh_info();
         }
         function movedown(){
-		 if(bino){
+        
+        //add the previous position to the map record
+        if(bino){
         if(map_elements[position[0]][position[1]+1]==4){
                 }
             else if(bino_count<=4){
@@ -696,18 +670,19 @@
             addposition(position[0],position[1]+2);
             }
         }
+            
+        
             //remove();
             drawChessBoard();
 		var current_x = position[0]; // stores position before move to undo movement
 		var current_y = position[1];
+            
 			if(position[1] == canvas_position[0]-1){//set it to max_variable later
 				position[1] = 0;//set it min_variable later
 			}
 			else{
 				position[1] += 1;
 			}
-			let health = document.getElementById("health")
-			health.value -= 1;
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
 			out_of_energy(hero_energy);//daniel death
@@ -752,7 +727,6 @@
 		}
 
 		_addEventListener('keydown', document, handleKeyboardEvent);
-
 </script>
 </body>
 </html>
