@@ -22,7 +22,7 @@
 		}
 		</style>
     <center>
-	<h2> Fupal </h2>
+	<h2> Frupal </h2>
     <b>Hero current position：</b> <span id='pos'></span>
     &nbsp;<b>Energy：</b> <span id='energy'></span>
     &nbsp;<b>Whiffles: </b><span id='whiffles'></span>
@@ -233,7 +233,7 @@
         }
 		function treasure_img(x,y){
             treasure = new Image();
-            treasure.src = 'treasure.jpg';
+            treasure.src = 'treasure.png';
             var some_x = x*20;
             var some_y = y*20;
             treasure.onload = function(){
@@ -251,7 +251,7 @@
         }
         function tree_img(x,y){
             tree = new Image();
-            tree.src = 'tree.jpg';
+            tree.src = 'tree.png';
             var some_x = x*20;
             var some_y = y*20;
             tree.onload = function(){
@@ -260,7 +260,7 @@
         }
         function boulder_img(x,y){
             boulder = new Image();
-            boulder.src = 'boulder.jpg';
+            boulder.src = 'boulder.png';
             var some_x = x*20;
             var some_y = y*20;
             boulder.onload = function(){
@@ -270,7 +270,7 @@
 
         function jewel_img(x,y){
             jewel = new Image();
-            jewel.src = 'jewel.jpg';
+            jewel.src = 'jewel.png';
             var some_x = x*20;
             var some_y = y*20;
             jewel.onload = function(){
@@ -279,7 +279,7 @@
         }
         function blackberry_img(x,y){
             blackberry = new Image();
-            blackberry.src = 'blackberry.jpg';
+            blackberry.src = 'blackberry.png';
             var some_x = x*20;
             var some_y = y*20;
             blackberry.onload = function(){
@@ -288,7 +288,7 @@
         }
         function powerbar_img(x,y){
             powerbar = new Image();
-            powerbar.src = 'power_bar.jpg';
+            powerbar.src = 'power_bar.png';
             var some_x = x*20;
             var some_y = y*20;
             powerbar.onload = function(){
@@ -974,10 +974,6 @@
         display(); // Display the current position
         
 
-		/**
-		 * old IE: attachEvent
-		 * Firefox, Chrome, or modern browsers: addEventListener
-		 */
 		function _addEventListener(evt, element, fn) {
 		  if (window.addEventListener) {
 			element.addEventListener(evt, fn, false);
@@ -989,7 +985,7 @@
 
 		function handleKeyboardEvent(evt) {
 		  if (!evt) {evt = window.event;} // for old IE compatible
-		  var keycode = evt.keyCode || evt.which; // also for cross-browser compatible
+		  var keycode = evt.keyCode || evt.which;
 
 			if(keycode == 37)
 			  moveleft();
