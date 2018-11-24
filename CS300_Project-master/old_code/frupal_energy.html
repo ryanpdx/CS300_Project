@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> 
+        Frupal Energy Task
+        </title>
+        <audio id="death" src="death.mp3"preload="auto"></audio>
+        <script>
+            function out_of_energy(energy){
+                if (energy <= 0){
+                    <!-- no energy --> 
+                   // alert("You have run out of energy");
+                    document.getElementById('death').play();
+                    death_confirm();
+                    
+                    return true;
+                }
+
+                return false;
+            }
+            function low_energy(energy){
+                if (energy >= 1 && energy <=5){
+                    <!-- low energy --> 
+                    alert("you are running low on energy");
+                }
+            }
+            function death_confirm(){
+                alert("You have run out of energy");
+            }
+            //window.death_test();
+        </script> 
+    </head>
+    <body>
+        <!--
+        <BODY onLoad='alert("Welcome!")'> 
+            --> 
+        <!-- this just passes in the energy value to test and I am passing in a 0-->
+        <BODY onLoad='out_of_energy(0)'>
+        <!--
+
+                <button onclick="out_of_energy(E)"> Death </button>
+            -->
+                This monitors the frupal energy meters
+        test two
+        <audio autoplay>
+            <source src="death.mp3" type="audio">
+        </audio>
+    </body>
+</html>

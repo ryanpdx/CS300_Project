@@ -1,0 +1,68 @@
+<html lang="en">
+<h2>Frupal Settings</h2>
+
+
+<h3>General</h3>
+
+Mapsize: 
+<textarea rows=1 cols=3 id=mapsize>25</textarea>
+ squared
+<p>
+
+Starting Postion: 
+<textarea rows=1 cols=3 id=posx>0</textarea>, 
+<textarea rows=1 cols=3 id=posy>0</textarea>
+<p>
+
+Starting Energy:
+<textarea rows=1 cols=3 id=energy>100</textarea>
+<p>
+
+Fog of War: 
+<input type="radio" name="fog_of_war" value="on" checked> On
+<input type="radio" name="fog_of_war" value="off"> Off
+
+
+<h3>Obstacles</h3>
+
+Trees:
+<textarea rows=1 cols=3 id= tree>2</textarea>
+<p>
+
+Boulders:
+<textarea rows=1 cols=3 id=boulder>4</textarea>
+<p>
+
+Blackberry:
+<textarea rows=1 cols=3 id=blackberry>4</textarea>
+<p>
+
+Water:
+<textarea rows=1 cols=3 id=water>10</textarea>
+<p>
+
+
+<h3>Items</h3>
+
+Treasures:
+<textarea rows=1 cols=3 id=treasures>1</textarea>
+<p>
+
+Jewels:
+<textarea rows=1 cols=3 id=jewels>1</textarea>
+<p>
+
+
+<input id="btntest" type="button" value="Save" onclick="window.location = 'frupal_menu.html'" />
+<input id="btntest" type="button" value="Back/Cancel" onclick="window.location = 'frupal_menu.html'" />
+
+
+<script>
+document.body.style.backgroundColor = "#006699";
+//examples to get/modify html variables
+document.getElementById("tree").value = '3';
+var hero_energy =  document.getElementById("energy").value;
+</script>
+
+
+</html>
