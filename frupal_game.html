@@ -57,34 +57,39 @@
 		var tree_cost = 10;
 		var boulder_cost = 15;
 		var blackberry_cost = 4;
-		var bog_cost = 2;
         
-        // amout of each tool in map
-        var tool_pickaxe = 1;
-	    var tool_axe = 1;
-	    var tool_weedwacker = 1;
-        var tool_cost_whiffles = 10;
+        
+        var tool_pickaxe = 8;
+	    var tool_axe = 5;
+	    var tool_weedwacker = 3;
+
+        var tool_cost_whiffles =10;
         
 
 		//treasure whiffle gain
 		var treasure1_gain = 100;
         var power_bar_gain = 20;
+
         var power_bar_cost = 1;
         var bino_cost = 50;
 
 		//amount of obstacles to randomly place
+        
 		var tree_count = 5;
 		var boulder_count = 5;
 		var blackberry_count = 5;
-		var water_count = 30;
-		var bog_count = 20;
+		var water_count = 10;
+        
 		var treasure1_count = 5;
-		var treasure2_count = 5;
+		var treasure2_count = 2;
+        
         var power_bar_count = 5;
-        var binoculars_count = 5;
-        var tool_pickaxe_count = 5;
-	    var tool_axe_count = 5;
-	    var tool_weedwacker_count = 5;
+        
+        var binoculars_count = 1;
+        var tool_pickaxe_count = 1;
+	    var tool_axe_count = 1;
+	    var tool_weedwacker_count = 1;
+        
 		var jewel_count = 5;
 		var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
 		
@@ -195,10 +200,6 @@
 			for (var i = 0; i < jewel_count;++i){ 
 				map_elements[random_coord()][random_coord()] = 12;
 			}
-			
-			for (var i = 0; i < bog_count;++i){
-				map_elements[random_coord()][random_coord()] = 13;
-			}
             //Dont have any items @ these blocks
             map_elements[0][0] =0;
             map_elements[0][1] =0;
@@ -272,17 +273,6 @@
                 context.drawImage(water,some_x,some_y,20,20);
             }
         }
-		
-		function bog_img(x,y){
-			bog = new Image();
-			bog.src = 'bog.jpg';
-			var some_x = x*20;
-			var some_y = y*20;
-			bog.onload = function(){
-				context.drawImage(bog,some_x,some_y,20,20);
-			}
-		}
-		
         function tree_img(x,y){
             tree = new Image();
             tree.src = 'tree.png';
@@ -369,8 +359,7 @@
             var m_tree = [];
 			var m_boulder = [];
 			var m_blackberry = [];
-			var m_water = [];
-			var m_bog = [];
+			var m_water = [];	
 			var m_treasure1 = [];
             var m_powerbar = [];
 			var m_jewel = [];
@@ -385,41 +374,38 @@
 					if(map_elements[i][k] == 1){
 						m_tree.push(new tree_img(i,k)); //pushing that image function into the array
 					}
-					else if(map_elements[i][k] == 2){
+					if(map_elements[i][k] == 2){
 						m_boulder.push(new boulder_img(i,k));
 					}
-					else if(map_elements[i][k] == 3){
+					if(map_elements[i][k] == 3){
 						m_tree.push(new blackberry_img(i,k));
 					}
-					else if(map_elements[i][k] == 4) {
+					if(map_elements[i][k] == 4) {
 					    m_water.push(new water_img(i,k));
 					}
-					else if(map_elements[i][k] == 5) {
+					if(map_elements[i][k] == 5) {
 					    m_treasure1.push(new treasure_img(i,k));
 					}
-					else if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
+					if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
 					    m_treasure1.push(new treasure_img(i,k));
 					}
-                    else if(map_elements[i][k] == 7) {
+                    if(map_elements[i][k] == 7) {
                 		m_tool_axe.push(new axe_img(i, k));
                		}
-                	else if(map_elements[i][k] == 8) {
+                	if(map_elements[i][k] == 8) {
                 		m_tool_weed.push(new weedwacker_img(i, k));
                 	}
-                	else if(map_elements[i][k] == 9) {
+                	if(map_elements[i][k] == 9) {
                 		m_tool_pick.push(new pickaxe_img(i, k));
                 	}
-                    else if(map_elements[i][k] == 10){
+                    if(map_elements[i][k] == 10){
                         m_powerbar.push(new powerbar_img(i,k));
                     }
-                    else if(map_elements[i][k] == 11){
+                    if(map_elements[i][k] == 11){
                         m_binoculars.push(new binoculars_img(i,k));
                     }
-					else if(map_elements[i][k] == 12) {
+					if(map_elements[i][k] == 12) {
 					m_jewel.push(new jewel_img(i,k));
-					}
-					else if(map_elements[i][k] == 13) {
-					m_bog.push(new bog_img(i,k));
 					}
 
 				}
@@ -538,7 +524,7 @@
             hero = new Image();
             hero.src = 'Hero.png';
             hero.onload = function(){
-            context.drawImage(hero,x*20,y*20,20,20);      
+                context.drawImage(hero,x*20,y*20,20,20);
             }
            
         }
@@ -553,46 +539,43 @@
 		function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates 
 			if(map_elements[x][y] == 1){
 			//	hero_energy -= tree_cost; // decrements energy by variable
-                hero_energy = hero_energy - tree_cost + axe_used;
+                hero_energy = hero_energy - tree_cost;
 				map_elements[x][y] = 0;  // sets obsticle to 0 removing obstacle
                 axe_used = 0;
 			}
-			if(map_elements[x][y] == 2){
+			else if(map_elements[x][y] == 2){
 			//	hero_energy -= boulder_cost;
-                hero_energy = hero_energy - boulder_cost + pickaxe_used; 
+                hero_energy = hero_energy - boulder_cost;
 				map_elements[x][y] = 0;
                 pickaxe_used = 0;
 			}
-			if(map_elements[x][y] == 3){
+			else if(map_elements[x][y] == 3){
 			//	hero_energy -= blackberry_cost;
-                hero_energy = hero_energy - blackberry_cost + weedwacker_used; 
+                hero_energy = hero_energy - blackberry_cost;
 				map_elements[x][y] = 0;
                 weedwacker_used = 0;
 			}
-			if(map_elements[x][y] == 4){ // if obsticle water undo movement
+			else if(map_elements[x][y] == 4){ // if obsticle water undo movement
 				position[0] = cur_x;
 				position[1] = cur_y;
 			}
-			if(map_elements[x][y] == 13){ // if bog 
-				hero_energy = hero_energy - bog_cost;
-			}
-        }
-        function check_tool(x,y){
-			if(map_elements[x][y] == 5){
+            
+			else if(map_elements[x][y] == 5){
 				hero_whiffles += treasure1_gain; //adds whiffles
 					map_elements[x][y] = 0; // removes treasurechest
 			}
-			if(map_elements[x][y] == 6){
+			else if(map_elements[x][y] == 6){
+                alert("You've encunter a mimic!\nIt stole all your whiffles!");
 				hero_whiffles = 0; //sets whiffles to zero
 					map_elements[x][y] = 0; // removes treasurechest
 			}
-            if (map_elements[x][y] == 7) { //If they land on a axe spot
+            else if (map_elements[x][y] == 7) { //If they land on a axe spot
             		var buying_axe = confirm("Would you like to buy an Axe to reduce tree energy cost by 7?\n Cost: 10 Whiffles");
             			if (buying_axe == true) {
                 			if (hero_whiffles >= tool_cost_whiffles) {
                     				map_elements[x][y] = 0;
                     				hero_whiffles -= tool_cost_whiffles;
-                    			//	tree_cost -= tool_axe;
+                    				tree_cost -= tool_axe;
                     			//	tool[0] = true;
                                     axe +=1;
 
@@ -605,13 +588,13 @@
                     	alert("Too bad, I'll be waiting here then.")
             	    }
         	}
-        	if (map_elements[x][y] == 8) { //If the player lands on a Weedwacker spot
+        	else if (map_elements[x][y] == 8) { //If the player lands on a Weedwacker spot
             		var buying_weedwacker = confirm("Would you like to buy an weedwacker to reduce bush energy cost by 3?\n Cost: 10 Whiffles");
             			if (buying_weedwacker == true) {
                 			if (hero_whiffles >= tool_cost_whiffles) {
                     				map_elements[x][y] = 0;
                     				hero_whiffles -= tool_cost_whiffles;
-                    			//	blackberry_cost -= tool_weedwacker;
+                    				blackberry_cost -= tool_weedwacker;
                     			//	tool[2] = true;
                                     weedwacker +=1;
 
@@ -624,13 +607,13 @@
                 	        alert("Too bad, I'll be waiting here then.")
             	        }       
         	}
-        	if (map_elements[x][y] == 9) { //If player lands on pickaxe spot
+        	else if (map_elements[x][y] == 9) { //If player lands on pickaxe spot
             		var buying_pickaxe = confirm("Would you like to buy an Pickaxe to reduce tree energy cost by 5 ?\n Cost: 10 Whiffles");
             		if (buying_pickaxe == true) {
                 		if (hero_whiffles >= tool_cost_whiffles) {
                     			map_elements[x][y] = 0;
                     			hero_whiffles -= tool_cost_whiffles;
-                    		//	boulder_cost -= tool_pickaxe;
+                    			boulder_cost -= tool_pickaxe;
                     		//	tool[1] = true;
                                 pickaxe +=1;
                 		}
@@ -642,7 +625,7 @@
                 	alert("Too bad, I'll be waiting here then.")
             	}
         	}
-            if(map_elements[x][y] == 10){
+            else if(map_elements[x][y] == 10){
             var response = confirm("You found a power bar. Do you want to consume it? \nIt costs 1 whiffle, and provides 20 units of energy.");
 					if(response) {
 						if(hero_whiffles <1) {
@@ -654,7 +637,7 @@
 						}
 					}
             }
-            if(map_elements[x][y] == 11){
+            else if(map_elements[x][y] == 11){
             var response_bino = confirm("Would you like to buy Binoculars to enhance your vision? \n Cost: 50 whiffles.");
 					if(response_bino) {
 						if(hero_whiffles <50) {
@@ -667,15 +650,15 @@
 						}
 					}
             }
-			if(map_elements[x][y] == 12){
+			else if(map_elements[x][y] == 12){
 				hero_jewel++;  //adds 1 to hero jewels
 				map_elements[x][y] = 0;
 			}
-		}
+        }
 
         function moveup(){
             //remove();
-            check_obstacle(position[0],position[1],current_x,current_y);
+            //check_obstacle(position[0],position[1],current_x,current_y);
 		    var current_x = position[0]; // stores position before move to undo movement
 		    var current_y = position[1];
             if(map_elements[position[0]][position[1]] != 4) {
@@ -689,8 +672,8 @@
             drawChessBoard();
             oneStep(position[0], position[1]);
 			--hero_energy;
-		//	check_obstacle(position[0],position[1],current_x,current_y);
-            check_tool(position[0], position[1]);
+			check_obstacle(position[0],position[1],current_x,current_y);
+            //check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);
 			
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
@@ -698,7 +681,7 @@
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
         function moveleft(){
             //remove();
-            check_obstacle(position[0],position[1],current_x,current_y);
+            //check_obstacle(position[0],position[1],current_x,current_y);
 		    var current_x = position[0]; // stores position before move to undo movement
 		    var current_y = position[1];
             if(map_elements[position[0]][position[1]] != 4) {
@@ -712,8 +695,8 @@
             drawChessBoard();
             oneStep(position[0], position[1]);
 			--hero_energy;
-		//	check_obstacle(position[0],position[1],current_x,current_y);
-            check_tool(position[0], position[1]);
+			check_obstacle(position[0],position[1],current_x,current_y);
+        //  check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);
 			
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
@@ -721,7 +704,7 @@
         }
 
         function moveright(){
-            check_obstacle(position[0],position[1],current_x,current_y);
+            //check_obstacle(position[0],position[1],current_x,current_y);
 		    var current_x = position[0]; // stores position before move to undo movement
 		    var current_y = position[1];
             if(map_elements[position[0]][position[1]] != 4) {
@@ -734,17 +717,17 @@
             }
             drawChessBoard();
             oneStep(position[0], position[1]);
-			--hero_energy;
-		//	check_obstacle(position[0],position[1],current_x,current_y);
-            check_tool(position[0], position[1]);
-			out_of_energy(hero_energy);
+			--hero_energy; //jomar energy
+			check_obstacle(position[0],position[1],current_x,current_y);
+           // check_tool(position[0], position[1]);
+			out_of_energy(hero_energy);//daniel death
 		    	
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 						refresh_info();
         }
         function movedown(){
             //remove();
-            check_obstacle(position[0],position[1],current_x,current_y);
+            //check_obstacle(position[0],position[1],current_x,current_y);
 		    var current_x = position[0]; // stores position before move to undo movement
 		    var current_y = position[1];
             if(map_elements[position[0]][position[1]] != 4) {
@@ -758,9 +741,9 @@
             
             drawChessBoard();
             oneStep(position[0], position[1]);
-			--hero_energy;
-		//	check_obstacle(position[0],position[1],current_x,current_y);
-            check_tool(position[0], position[1]);
+			--hero_energy; //jomar energy
+			check_obstacle(position[0],position[1],current_x,current_y);
+        //  check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);//daniel death
             		
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
