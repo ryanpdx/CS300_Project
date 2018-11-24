@@ -59,18 +59,16 @@
 		var blackberry_cost = 4;
 		var bog_cost = 2;
         
-        
-        var tool_pickaxe = 8;
-	    var tool_axe = 5;
-	    var tool_weedwacker = 3;
-
-        var tool_cost_whiffles =10;
+        // amout of each tool in map
+        var tool_pickaxe = 1;
+	    var tool_axe = 1;
+	    var tool_weedwacker = 1;
+        var tool_cost_whiffles = 10;
         
 
 		//treasure whiffle gain
 		var treasure1_gain = 100;
         var power_bar_gain = 20;
-
         var power_bar_cost = 1;
         var bino_cost = 50;
 
@@ -736,10 +734,10 @@
             }
             drawChessBoard();
             oneStep(position[0], position[1]);
-			--hero_energy; //jomar energy
+			--hero_energy;
 		//	check_obstacle(position[0],position[1],current_x,current_y);
             check_tool(position[0], position[1]);
-			out_of_energy(hero_energy);//daniel death
+			out_of_energy(hero_energy);
 		    	
 			AlertDiamondsFound(position[0],position[1], jewel_position[0], jewel_position[1]);
 						refresh_info();
@@ -760,7 +758,7 @@
             
             drawChessBoard();
             oneStep(position[0], position[1]);
-			--hero_energy; //jomar energy
+			--hero_energy;
 		//	check_obstacle(position[0],position[1],current_x,current_y);
             check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);//daniel death
