@@ -5,7 +5,10 @@
 <head>
     <meta charset="UTF-8">
 	<audio id="death" src="death.mp3"preload="auto"></audio> 
-    <style type="text/css">
+	<audio id="bog" src="bog.mp3"preload="auto"></audio> 
+	<audio id="blackberry_hand" src="blackberry_hand.mp3"preload="auto"></audio>
+    <audio id="rock_hand" src="rock_hand.mp3"preload="auto"></audio>
+	<style type="text/css">
         canvas {
         	display: block;
         	margin: 50px auto;
@@ -200,6 +203,9 @@
 			for (var i = 0; i < jewel_count;++i){ 
 				map_elements[random_coord()][random_coord()] = 12;
 			}
+		    for (var i = 0; i < bog_count;++i){ 
+				map_elements[random_coord()][random_coord()] = 13;
+			}
             //Dont have any items @ these blocks
             map_elements[0][0] =0;
             map_elements[0][1] =0;
@@ -271,6 +277,16 @@
             var some_y = y*20;
             water.onload = function(){
                 context.drawImage(water,some_x,some_y,20,20);
+            }
+        }
+		
+		function bog_img(x,y){
+            bog = new Image();
+            bog.src = 'bog.jpg';
+            var some_x = x*20;
+            var some_y = y*20;
+            bog.onload = function(){
+                context.drawImage(bog,some_x,some_y,20,20);
             }
         }
         function tree_img(x,y){
@@ -360,6 +376,7 @@
 			var m_boulder = [];
 			var m_blackberry = [];
 			var m_water = [];	
+			var m_bog = [];
 			var m_treasure1 = [];
             var m_powerbar = [];
 			var m_jewel = [];
@@ -374,38 +391,41 @@
 					if(map_elements[i][k] == 1){
 						m_tree.push(new tree_img(i,k)); //pushing that image function into the array
 					}
-					if(map_elements[i][k] == 2){
+					else if(map_elements[i][k] == 2){
 						m_boulder.push(new boulder_img(i,k));
 					}
-					if(map_elements[i][k] == 3){
+					else if(map_elements[i][k] == 3){
 						m_tree.push(new blackberry_img(i,k));
 					}
-					if(map_elements[i][k] == 4) {
+					else if(map_elements[i][k] == 4) {
 					    m_water.push(new water_img(i,k));
 					}
-					if(map_elements[i][k] == 5) {
+					else if(map_elements[i][k] == 5) {
 					    m_treasure1.push(new treasure_img(i,k));
 					}
-					if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
+					else if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
 					    m_treasure1.push(new treasure_img(i,k));
 					}
-                    if(map_elements[i][k] == 7) {
+                    else if(map_elements[i][k] == 7) {
                 		m_tool_axe.push(new axe_img(i, k));
                		}
-                	if(map_elements[i][k] == 8) {
+                	else if(map_elements[i][k] == 8) {
                 		m_tool_weed.push(new weedwacker_img(i, k));
                 	}
-                	if(map_elements[i][k] == 9) {
+                	else if(map_elements[i][k] == 9) {
                 		m_tool_pick.push(new pickaxe_img(i, k));
                 	}
-                    if(map_elements[i][k] == 10){
+                    else if(map_elements[i][k] == 10){
                         m_powerbar.push(new powerbar_img(i,k));
                     }
-                    if(map_elements[i][k] == 11){
+                    else if(map_elements[i][k] == 11){
                         m_binoculars.push(new binoculars_img(i,k));
                     }
-					if(map_elements[i][k] == 12) {
+					else if(map_elements[i][k] == 12) {
 					m_jewel.push(new jewel_img(i,k));
+					}
+					else if(map_elements[i][k] == 13) {
+					m_bog.push(new bog_img(i,k));
 					}
 
 				}
@@ -550,12 +570,14 @@
 			else if(map_elements[x][y] == 2){
 			//	hero_energy -= boulder_cost;
                 hero_energy = hero_energy - boulder_cost;
+				document.getElementById('rock_hand').play();
 				map_elements[x][y] = 0;
                 pickaxe_used = 0;
 			}
 			else if(map_elements[x][y] == 3){
 			//	hero_energy -= blackberry_cost;
                 hero_energy = hero_energy - blackberry_cost;
+				document.getElementById('blackberry_hand').play();
 				map_elements[x][y] = 0;
                 weedwacker_used = 0;
 			}
@@ -657,6 +679,11 @@
 			else if(map_elements[x][y] == 12){
 				hero_jewel++;  //adds 1 to hero jewels
 				map_elements[x][y] = 0;
+			}
+			
+			else if(map_elements[x][y] == 13){
+                hero_energy = hero_energy - bog_cost;
+				document.getElementById('bog').play();
 			}
         }
 
