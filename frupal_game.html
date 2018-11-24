@@ -57,14 +57,14 @@
 		var tree_cost = 10;
 		var boulder_cost = 15;
 		var blackberry_cost = 4;
-        
-        
-        var tool_pickaxe = 8;
-	    var tool_axe = 5;
-	    var tool_weedwacker = 3;
 
+	 
+        var tool_pickaxe = 1;
+	    var tool_axe = 1;
+	    var tool_weedwacker = 1;
         var tool_cost_whiffles =10;
-        
+		
+		var fog_on = true; // true or false
 
 		//treasure whiffle gain
 		var treasure1_gain = 100;
@@ -506,12 +506,16 @@
                 addposition(position[0]-2,position[1]);
             }
             
-            draw_black(canvas_position[0], canvas_position[1]);
+            if(fog_on == true) {
+				draw_black(canvas_position[0], canvas_position[1]);
+			}
             
         }//This function is used for drawing the coordinate
 
         drawChessBoard(); //Actually draw the coordinate
-		draw_black();
+		if(fog_on == true) {
+			draw_black();
+		}
 		function AlertDiamondsFound(hero_x,hero_y, diamonds_x, diamonds_y) {
 
             if(hero_jewel >2){
