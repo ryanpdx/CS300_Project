@@ -57,6 +57,7 @@
 		var tree_cost = 10;
 		var boulder_cost = 15;
 		var blackberry_cost = 4;
+		var bog_cost = 2;
         
         
         var tool_pickaxe = 8;
@@ -77,7 +78,8 @@
 		var tree_count = 5;
 		var boulder_count = 5;
 		var blackberry_count = 5;
-		var water_count = 10;
+		var water_count = 30;
+		var bog_count = 20;
 		var treasure1_count = 5;
 		var treasure2_count = 5;
         var power_bar_count = 5;
@@ -195,6 +197,10 @@
 			for (var i = 0; i < jewel_count;++i){ 
 				map_elements[random_coord()][random_coord()] = 12;
 			}
+			
+			for (var i = 0; i < bog_count;++i){
+				map_elements[random_coord()][random_coord()] = 13;
+			}
             //Dont have any items @ these blocks
             map_elements[0][0] =0;
             map_elements[0][1] =0;
@@ -268,6 +274,17 @@
                 context.drawImage(water,some_x,some_y,20,20);
             }
         }
+		
+		function bog_img(x,y){
+			bog = new Image();
+			bog.src = 'bog.jpg';
+			var some_x = x*20;
+			var some_y = y*20;
+			bog.onload = function(){
+				context.drawImage(bog,some_x,some_y,20,20);
+			}
+		}
+		
         function tree_img(x,y){
             tree = new Image();
             tree.src = 'tree.png';
@@ -354,7 +371,8 @@
             var m_tree = [];
 			var m_boulder = [];
 			var m_blackberry = [];
-			var m_water = [];	
+			var m_water = [];
+			var m_bog = [];
 			var m_treasure1 = [];
             var m_powerbar = [];
 			var m_jewel = [];
@@ -369,38 +387,41 @@
 					if(map_elements[i][k] == 1){
 						m_tree.push(new tree_img(i,k)); //pushing that image function into the array
 					}
-					if(map_elements[i][k] == 2){
+					else if(map_elements[i][k] == 2){
 						m_boulder.push(new boulder_img(i,k));
 					}
-					if(map_elements[i][k] == 3){
+					else if(map_elements[i][k] == 3){
 						m_tree.push(new blackberry_img(i,k));
 					}
-					if(map_elements[i][k] == 4) {
+					else if(map_elements[i][k] == 4) {
 					    m_water.push(new water_img(i,k));
 					}
-					if(map_elements[i][k] == 5) {
+					else if(map_elements[i][k] == 5) {
 					    m_treasure1.push(new treasure_img(i,k));
 					}
-					if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
+					else if(map_elements[i][k] == 6) { //pushes same treasure image as treasure1
 					    m_treasure1.push(new treasure_img(i,k));
 					}
-                    if(map_elements[i][k] == 7) {
+                    else if(map_elements[i][k] == 7) {
                 		m_tool_axe.push(new axe_img(i, k));
                		}
-                	if(map_elements[i][k] == 8) {
+                	else if(map_elements[i][k] == 8) {
                 		m_tool_weed.push(new weedwacker_img(i, k));
                 	}
-                	if(map_elements[i][k] == 9) {
+                	else if(map_elements[i][k] == 9) {
                 		m_tool_pick.push(new pickaxe_img(i, k));
                 	}
-                    if(map_elements[i][k] == 10){
+                    else if(map_elements[i][k] == 10){
                         m_powerbar.push(new powerbar_img(i,k));
                     }
-                    if(map_elements[i][k] == 11){
+                    else if(map_elements[i][k] == 11){
                         m_binoculars.push(new binoculars_img(i,k));
                     }
-					if(map_elements[i][k] == 12) {
+					else if(map_elements[i][k] == 12) {
 					m_jewel.push(new jewel_img(i,k));
+					}
+					else if(map_elements[i][k] == 13) {
+					m_bog.push(new bog_img(i,k));
 					}
 
 				}
@@ -551,8 +572,11 @@
                 weedwacker_used = 0;
 			}
 			if(map_elements[x][y] == 4){ // if obsticle water undo movement
-			//	position[0] = cur_x;
-			//	position[1] = cur_y;
+				position[0] = cur_x;
+				position[1] = cur_y;
+			}
+			if(map_elements[x][y] == 13){ // if bog 
+				hero_energy = hero_energy - bog_cost;
 			}
         }
         function check_tool(x,y){
