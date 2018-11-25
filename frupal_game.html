@@ -586,14 +586,17 @@
 				position[1] = cur_y;
 			}
             
-			else if(map_elements[x][y] == 5){
+			else if(map_elements[x][y] == 5){ // If player lands on a treasure chest
 				hero_whiffles += treasure1_gain; //adds whiffles
-					map_elements[x][y] = 0; // removes treasurechest
+				map_elements[x][y] = 0; // removes treasurechest
 			}
-			else if(map_elements[x][y] == 6){
-                alert("You've encunter a mimic!\nIt stole all your whiffles!");
-				hero_whiffles = 0; //sets whiffles to zero
-					map_elements[x][y] = 0; // removes treasurechest
+			else if(map_elements[x][y] == 6){ // If player lands on a mimic treasure chest
+                alert("You've encunter a mimic!\nIt stole 100 whiffles!");
+				if(hero_whiffles > 100)
+					hero_whiffles -= 100;
+				else
+					hero_whiffles = 0; //sets whiffles to zero
+				map_elements[x][y] = 0; // removes treasurechest
 			}
             else if (map_elements[x][y] == 7) { //If they land on a axe spot
             		var buying_axe = confirm("Would you like to buy an Axe to reduce tree energy cost by 7?\n Cost: 10 Whiffles");
@@ -651,7 +654,7 @@
                 	alert("Too bad, I'll be waiting here then.")
             	}
         	}
-            else if(map_elements[x][y] == 10){
+            else if(map_elements[x][y] == 10){ //If player lands on a power bar
             var response = confirm("You found a power bar. Do you want to consume it? \nIt costs 1 whiffle, and provides 20 units of energy.");
 					if(response) {
 						if(hero_whiffles <1) {
@@ -663,7 +666,7 @@
 						}
 					}
             }
-            else if(map_elements[x][y] == 11){
+            else if(map_elements[x][y] == 11){ //If player lands on binoculars
             var response_bino = confirm("Would you like to buy Binoculars to enhance your vision? \n Cost: 50 whiffles.");
 					if(response_bino) {
 						if(hero_whiffles <50) {
@@ -676,12 +679,12 @@
 						}
 					}
             }
-			else if(map_elements[x][y] == 12){
+			else if(map_elements[x][y] == 12){ //If player lands on royal jewels
 				hero_jewel++;  //adds 1 to hero jewels
 				map_elements[x][y] = 0;
 			}
 			
-			else if(map_elements[x][y] == 13){
+			else if(map_elements[x][y] == 13){ // Ifplayer lands on a bog
                 hero_energy = hero_energy - bog_cost;
 				document.getElementById('bog').play();
 			}
