@@ -4,8 +4,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-	<audio id="death" src="death.mp3"preload="auto"></audio> 
-	<audio id="bog" src="bog.mp3"preload="auto"></audio> 
+	<audio id="death" src="death.mp3"preload="auto"></audio>
+	<audio id="bog" src="bog.mp3"preload="auto"></audio>
 	<audio id="blackberry_hand" src="blackberry_hand.mp3"preload="auto"></audio>
     <audio id="rock_hand" src="rock_hand.mp3"preload="auto"></audio>
 	<style type="text/css">
@@ -16,13 +16,13 @@
         }
     </style>
 	<style>
-		.buttons { 
+		.buttons {
 		  width: 60%;
 		  table-layout: fixed;
 		  border-collapse: collapse;
-		  background-color: none; 
+		  background-color: none;
 		}
-		.buttons button { 
+		.buttons button {
 		  width: 100%;
 		}
 	</style>
@@ -34,7 +34,7 @@
         &nbsp;<b>Jewels: </b><span id='jewels'></span>
     </center>
 </head>
-<body onload="start();"> 
+<body onload="start();">
 <canvas id="mycanvas" width="500px" height="500px"></canvas>
 <script type="text/javascript">
 	document.body.style.backgroundColor = "#006699";
@@ -44,13 +44,13 @@
 	var position = [0, 0]; // Here is the initial position of the hero
 	var hero_energy = 100;//the hero energy set as hero_energy later
 	document.getElementById("health").max = hero_energy; // set init value
-	var hero_whiffles = 100; 
+	var hero_whiffles = 100;
 	var context = chess.getContext('2d');
 	var canvas_position = [(chess.width/20),(chess.height/20)];
 
 	//turn fog off for debuging
 	var fog_on = true; // true or false
-	
+
 	//arrays of position which has already discovered
 	var record_x = [position[0]];
 	var record_y = [position[1]];
@@ -89,15 +89,15 @@
 	var power_bar_count = 5;
 	var jewel_count = 5;
 	var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
-	
+
 	//tools variable
 	var axe = 0;
 	var pickaxe =0;
 	var weedwacker = 0;
 	//var binoculars = 0;
-	
+
 	//energy saved when using tool. It's equal to 0 if no tool is used
-	var axe_used = 0; 
+	var axe_used = 0;
 	var pickaxe_used = 0;
 	var weedwacker_used =0;
 
@@ -110,35 +110,35 @@
 			map_elements[i][k] = 0;  // initalises map_elements to 0
 		}
 	}
-	
+
 	function check_tool_buttons() {
 		Axe.innerHTML = "( " + axe + " )" ;
 		Pickaxe.innerHTML = "( " + pickaxe + " )" ;
 		Weedwacker.innerHTML = "( " + weedwacker + " )" ;
 		//Binoculars.innerHTML = "( " + binoculars + " )" ;
-		if(axe < 1) 
+		if(axe < 1)
 			document.getElementById("btn1").disabled = true;
 		else
 			document.getElementById("btn1").disabled = false;
-		if(pickaxe < 1) 
+		if(pickaxe < 1)
 			document.getElementById("btn2").disabled = true;
 		else
 			document.getElementById("btn2").disabled = false;
-		if(weedwacker < 1) 
+		if(weedwacker < 1)
 			document.getElementById("btn3").disabled = true;
-		else 
+		else
 			document.getElementById("btn3").disabled = false;
 		/*
-		if(binoculars < 1) 
+		if(binoculars < 1)
 			document.getElementById("btn4").disabled = true;
-		else    
+		else
 			document.getElementById("btn4").disabled = false;
 		*/
 	}
 
-	function get_axe() {                   
+	function get_axe() {
 		axe -= 1;
-		//add some code for what happen when using this tool 
+		//add some code for what happen when using this tool
 		axe_used = 5;
 	}
 	function get_pickaxe() {
@@ -146,7 +146,7 @@
 		//add some code for what happen when using this tool
 		pickaxe_used = 8;
 	}
-	function get_weedwacker() {	
+	function get_weedwacker() {
 		weedwacker -= 1;
 		//add some code for what happen when using this tool
 		weedwacker_used = 3;
@@ -179,17 +179,17 @@
 		}
 		map_elements[random_coord()][random_coord()] = 11; // binoculars
 		// jewels need to be last value as current implementation does not check if another object is in that location
-		for (var i = 0; i < jewel_count;++i){ 
+		for (var i = 0; i < jewel_count;++i){
 			map_elements[random_coord()][random_coord()] = 12;
 		}
-		for (var i = 0; i < bog_count;++i){ 
+		for (var i = 0; i < bog_count;++i){
 			map_elements[random_coord()][random_coord()] = 13;
 		}
 		//Dont have any items @ these blocks
 		map_elements[0][0] =0;
 		map_elements[0][1] =0;
 		map_elements[1][0] =0;
-		map_elements[1][1] =0; 
+		map_elements[1][1] =0;
 	}
 
 	function random_coord(){ // returns a random map coordnate
@@ -201,7 +201,7 @@
 		if (energy <= 0){
 			document.getElementById('death').play();
 			if(confirm("You have run out of energy.\nNew game?")){ //ok
-				window.location.reload(false); 
+				window.location.reload(false);
 			}
 			else { // cancel
 				window.location = 'frupal_menu.html';
@@ -210,8 +210,8 @@
 		}
 		return false;
 	}
-	
-	function refresh_info(){ 
+
+	function refresh_info(){
 		document.forms[0].hero_energy.value = hero_energy;
 	}
 
@@ -251,7 +251,7 @@
 			context.drawImage(water,some_x,some_y,20,20);
 		}
 	}
-	
+
 	function bog_img(x,y){
 		bog = new Image();
 		bog.src = 'bog.jpg';
@@ -347,7 +347,7 @@
 		var m_tree = [];
 		var m_boulder = [];
 		var m_blackberry = [];
-		var m_water = [];	
+		var m_water = [];
 		var m_bog = [];
 		var m_treasure1 = [];
 		var m_powerbar = [];
@@ -357,7 +357,7 @@
 		var m_tool_weed = [];
 		var m_tool_pick = [];
 		var m_binoculars = [];
-		
+
 		for(var i = 0; i < map_size; i++){
 			for( var k = 0; k < map_size; k++){
 				if(map_elements[i][k] == 1){
@@ -437,18 +437,18 @@
 		}
 		return false;
 	}
-	
+
 	//add the position into the map record
 	function addposition(x, y){
 		if(x>=0 && y>=0) {
-			if(check_record(x,y)==false){ 
+			if(check_record(x,y)==false){
 				record_x.push(x);
 				record_y.push(y);
 			}
 		}
-		
+
 	}
-	
+
 	function drawChessBoard(){
 		draw_sand(canvas_position[0],canvas_position[1]);
 		draw_obstacles();
@@ -463,34 +463,34 @@
 				addposition(i,j);
 			}
 		}
-	
+
 		if(fog_on == true) {
 			draw_black(canvas_position[0], canvas_position[1]);
 		}
-		
+
 	}//This function is used for drawing the coordinate
 
 	function AlertDiamondsFound(hero_x,hero_y) {
 		if(hero_jewel > 2){
 			if(confirm("You earned the Royal Diamonds, and won the game!\nNew game?")){ //ok
-				window.location.reload(false); 
+				window.location.reload(false);
 			}
 			else { // cancel
 				window.location = 'frupal_menu.html';
 			}
 		}
 	}
-	
+
 	function oneStep(x,y){
 		hero = new Image();
 		hero.src = 'Hero.png';
 		hero.onload = function(){
 			context.drawImage(hero,x*20,y*20,20,20);
 		}
-	   
+
 	}
 
-	function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates 
+	function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates
 		if(map_elements[x][y] == 1){
 			hero_energy -= tree_cost; // decrements energy by variable
 			map_elements[x][y] = 0;  // sets obsticle to 0 removing obstacle
@@ -512,7 +512,7 @@
 			position[0] = cur_x;
 			position[1] = cur_y;
 		}
-		
+
 		else if(map_elements[x][y] == 5){ // If player lands on a treasure chest
 			hero_whiffles += treasure1_gain; //adds whiffles
 			map_elements[x][y] = 0; // removes treasurechest
@@ -556,7 +556,7 @@
 			}
 			else {
 				alert("Too bad, I'll be waiting here then.")
-			}       
+			}
 		}
 		else if (map_elements[x][y] == 9) { //If player lands on pickaxe spot
 			var buying_pickaxe = confirm("Would you like to buy an Pickaxe to reduce tree energy cost by 5 ?\n Cost: 10 Whiffles");
@@ -596,7 +596,7 @@
 				} else {
 					hero_whiffles -= bino_cost;
 					map_elements[x][y] = 0;
-					//    binoculars += 1; 
+					//    binoculars += 1;
 					bino = true;
 				}
 			}
@@ -605,7 +605,7 @@
 			hero_jewel++;  //adds 1 to hero jewels
 			map_elements[x][y] = 0;
 		}
-		
+
 		else if(map_elements[x][y] == 13){ // Ifplayer lands on a bog
 			hero_energy = hero_energy - bog_cost;
 			document.getElementById('bog').play();
@@ -613,7 +613,7 @@
 	}
 
 	/* move up function, draw a new coordinate first to cover the old node and then change the position.
-	 Finally, draw the new node on the new position. 
+	 Finally, draw the new node on the new position.
 	 ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!!
 	 one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! */
 	function moveup(){
@@ -633,7 +633,7 @@
 		drawChessBoard();
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
-		
+
 		AlertDiamondsFound(position[0], position[1]);
 		refresh_info();
 	}
@@ -647,14 +647,14 @@
 				position[0] -= 1;
 			}
 		}
-		
+
 		--hero_energy;
 		check_obstacle(position[0],position[1],current_x,current_y);
 
 		drawChessBoard();
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
-		
+
 		AlertDiamondsFound(position[0], position[1]);
 		refresh_info();
 	}
@@ -675,7 +675,7 @@
 		drawChessBoard();
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
-			
+
 		AlertDiamondsFound(position[0],position[1]);
 		refresh_info();
 	}
@@ -690,14 +690,14 @@
 				position[1] += 1;
 			}
 		}
-		
+
 		--hero_energy;
 		check_obstacle(position[0],position[1],current_x,current_y);
 
 		drawChessBoard();
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
-				
+
 		AlertDiamondsFound(position[0],position[1]);
 		refresh_info();
 	}
@@ -748,17 +748,17 @@
 	<th>
 	<button id = "btn1" onclick="get_axe()"><p>Axe
 	<span id='Axe'></span></p>
-	</button> 
+	</button>
 	</th>
 	<th>
 	<button id = "btn2" onclick="get_pickaxe()"><p>Pickaxe
 	<span id='Pickaxe'></span></p>
-	</button> 
+	</button>
 	</th>
 	<th>
 	<button id = "btn3" onclick="get_weedwacker()"> <p>Weedwacker
 	<span id='Weedwacker'></span></p>
-	</button> 
+	</button>
 	</th>
 	</tr>
 </table>

@@ -5,16 +5,15 @@
 <html lang="en">
 <h2>Frupal Settings</h2>
 
-
 <h3>General</h3>
 
-Mapsize: 
+Mapsize:
 <textarea rows=1 cols=3 id=mapsize>25</textarea>
  squared
 <p>
 
-Starting Postion: 
-<textarea rows=1 cols=3 id=posx>0</textarea>, 
+Starting Postion:
+<textarea rows=1 cols=3 id=posx>0</textarea>,
 <textarea rows=1 cols=3 id=posy>0</textarea>
 <p>
 
@@ -22,7 +21,7 @@ Starting Energy:
 <textarea rows=1 cols=3 id=energy>100</textarea>
 <p>
 
-Fog of War: 
+Fog of War:
 <input type="radio" name="fog_of_war" value="on" checked> On
 <input type="radio" name="fog_of_war" value="off"> Off
 
@@ -56,15 +55,194 @@ Jewels:
 <textarea rows=1 cols=3 id=jewels>1</textarea>
 <p>
 
-
-<input id="btntest" type="button" value="Save" onclick="window.location = 'frupal_menu.html'" />
+<!-- <input id="btntest" type="button" value="Save" onclick="window.location = 'frupal_menu.html'" /> -->
 <input id="btntest" type="button" value="Back/Cancel" onclick="window.location = 'frupal_menu.html'" />
 
 
 <script>
 document.body.style.backgroundColor = "#006699";
-document.getElementById("posx").value = '1';
-var hero_energy =  document.getElementById("energy").value;
+//document.getElementById("posx").value = '1';
+//var hero_energy =  document.getElementById("energy").value;
+var statePreservation = { // by default, the object's variables are initialized on declaration
+  heroName: "John Smith",
+  xCoord: 0,
+  yCoord: 0,
+  xMax: 25,
+  yMax: 25,
+  energy: 100,
+  whiffles: 100
+  // if adding additional data, be sure to initialize
+};
+var mapData = { // Data relevant to map save state
+  mapDimensions: 25,
+  fogSwitch: true,
+  treeObstacle: 2,
+  boulderObstacle: 4,
+  blackberryObstacle: 4,
+  waterObstacle: 10,
+  treasureChest: 1,
+  jewels: 1
+};
+var dataPtr = statePreservation;
+var mapPtr = mapData;
+var setExpiry; //contains expiration date to set
+readCookies(dataPtr, mapPtr); // Initially reads the cookies and sets the form to whatever
+                              // the current machine has stored in cookies
+
+
+var button = document.createElement("button");       // declare a button element
+button.innerHTML = "Save Current Settings";              // put a name on the button
+var body = document.getElementsByTagName("body")[0]; // create a re-usable body variable to append to
+body.appendChild(button);                            // place the button in the body
+button.addEventListener ("click", function(){        // use a 'blank' function to call real functions
+  statePreservation.heroName = prompt("What is your hero name?");
+  setExpiry = fetchAndPrintDate(setExpiry); // creates an expiration date, and returns it. Also notifies user
+  grabData(dataPtr, mapPtr);
+  setCookie(statePreservation, mapPtr, setExpiry);  // actually creates the cookie, and stores current game data
+});
+
+var button2 = document.createElement("button");      // these follow the same process as above
+button2.innerHTML = "Reset Values";
+body.appendChild(button2);
+button2.addEventListener ("click", function(){
+  setExpiry = fetchAndPrintDate(setExpiry);
+  defaultCookie(setExpiry);
+  alert("Values set to default!" + "\n" + "Please refresh.");
+  //dataEcho(statePreservation, mapData);
+});
+/*
+var button3 = document.createElement("button");     // these follow the same process as above
+button3.innerHTML = "Use a file";
+body.appendChild(button3);
+button3.addEventListener ("click", function(){
+  alert("Hello Again");
+});
+*/
+
+// test
+function dataEcho(data, mapPtr){ //expects object statePreservation, and a ptr to map data
+alert(data.heroName + "\n" + data.xCoord + "\n" + data.yCoord + "\n" + data.xMax + "\n" + data.yMax
++ "\n" + data.energy + "\n" + data.whiffles);
+alert(mapPtr.mapDimensions + "\n" + mapPtr.fogSwitch + "\n" + mapPtr.treeObstacle + "\n" +
+mapPtr.boulderObstacle + "\n" + mapPtr.blackberryObstacle + "\n" + mapPtr.waterObstacle + "\n" +
+mapPtr.treasureChest + "\n" + mapPtr.jewels);
+}
+function grabData(dataPtr, mapPtr){
+
+  // VARIABLE ASSIGNMENTS FROM HTML SETTINGS //
+  dataPtr.xCoord = document.getElementById("posx").value;
+  dataPtr.yCoord = document.getElementById("posy").value;
+  dataPtr.xMax = document.getElementById("mapsize").value;
+  dataPtr.yMax = document.getElementById("mapsize").value;
+  dataPtr.energy = document.getElementById("energy").value;
+  // no option to set starting whiffles, so whiffles is default 100
+  // VARIABLE MAP SETTINGS ASSIGNED FROM HTML //
+// MAPDATA
+  mapPtr.mapDimensions = document.getElementById("mapsize").value;
+  //mapPtr.fogSwitch = document.getElementById("")
+  mapPtr.treeObstacle = document.getElementById("tree").value;
+  mapPtr.boulderObstacle = document.getElementById("boulder").value;
+  mapPtr.blackberryObstacle = document.getElementById("blackberry").value;
+  mapPtr.waterObstacle = document.getElementById("water").value;
+  mapPtr.treasureChest = document.getElementById("treasures").value;
+  mapPtr.jewels = document.getElementById("jewels").value;
+}
+
+// FUNCTION DEFINITIONS BELOW THIS POINT //
+function setHeroName(){ // unused testing function
+  var name;
+  name = prompt("What is the name of your Frupal hero?");
+  return name;
+}
+function fetchAndPrintDate(currentDate){ // sets the expiration date for the cookie and returns it
+  var date = new Date();
+  var time = date.getTime();
+  var expiry = time + (20000*36000);
+  currentDate = (date.getMonth()+1) + '/' +date.getDate() + '/' + date.getFullYear();
+  //document.write("The current date is: " + currentDate);
+  //document.write(linebreak);
+  date.setTime(expiry);
+  date.toGMTString();
+  //alert("The save session for this hero will expire on: " + date);
+  //document.write(linebreak);
+  //document.write(date.toGMTString());
+//  document.write(linebreak);
+  return date;
+}
+
+function defaultCookie(expiration){ // sets a default cookie
+  document.cookie = 'frupalData=' + "John Smith" + "," + 0 + "," + 0 +
+  "," + 25 + "," + 25 + "," + 100 + "," + 100 + "," +
+  25 + "," + true + "," + 2 + "," +
+  4 + "," + 4 + "," + 10 + "," + 1 + "," +
+  1 + '; expires=' + expiration.toGMTString() + '; path=/';
+}
+
+function setCookie(data, mapPtr, expiration){ // this sets the cookie to a saved state upon function call
+  document.cookie = 'frupalData=' + data.heroName + "," + data.xCoord + "," + data.yCoord +
+  "," + data.xMax + "," + data.yMax + "," + data.energy + "," + data.whiffles + "," +
+  mapPtr.mapDimensions + "," + mapPtr.fogSwitch + "," + mapPtr.treeObstacle + "," +
+  mapPtr.boulderObstacle + "," + mapPtr.blackberryObstacle + "," + mapPtr.waterObstacle + "," + mapPtr.treasureChest + "," +
+  mapPtr.jewels + '; expires=' + expiration.toGMTString() + '; path=/';
+   // follow the existing pattern if adding more storeable data.
+}
+  function getCookie(cname) { // string parsing
+  var name = cname + "=";     // search for cookie variable with name argument passed in
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';'); // separate cookie data
+  for(var i = 0; i <ca.length; i++) { // parse relevant cookie data into an array
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return ""; // return array to callee
+}
+function readCookies(data, mapPtr){ // this function reads the cookie, splits the data, and stores it into memory
+  var cookieData = getCookie("frupalData"); // name of cookie to search for
+  if(cookieData){ // if there exists a cookie, then continue.
+    var splitData = cookieData.split(','); // this separates the data, and stores each item into an array element
+    data.heroName = splitData[0];
+    data.xCoord = parseInt(splitData[1]);
+    data.yCoord = parseInt(splitData[2]);
+    data.xMax = parseInt(splitData[3]);
+    data.yMax = parseInt(splitData[4]);
+    data.energy = parseInt(splitData[5]);
+    data.whiffles = parseInt(splitData[6]);
+    mapPtr.mapDimensions = parseInt(splitData[7]);
+    mapPtr.fogSwitch = splitData[8];
+    mapPtr.treeObstacle = parseInt(splitData[9]);
+    mapPtr.boulderObstacle = parseInt(splitData[10]);
+    mapPtr.blackberryObstacle = parseInt(splitData[11]);
+    mapPtr.waterObstacle = parseInt(splitData[12]);
+    mapPtr.treasureChest = parseInt(splitData[13]);
+    mapPtr.jewels = parseInt(splitData[14]);
+    loadSpecSheet(data, mapPtr); // puts cookie data into the settings form
+  }
+  else{
+    // do nothing, and default values will load instead.
+  }
+  // If adding more object parameters, follow the above pattern. Use parseInt() //
+  // to typecast string literals into integers.                                 //
+}
+function loadSpecSheet(dataPtr, mapPtr){ // loads data from cookie stored on local machine
+
+  document.getElementById("mapsize").value = mapPtr.mapDimensions;
+  // fog radio button has no assignable value, and crashes the code when I try
+  document.getElementById("tree").value = mapPtr.treeObstacle;
+  document.getElementById("boulder").value = mapPtr.boulderObstacle;
+  document.getElementById("blackberry").value = mapPtr.blackberryObstacle;
+  document.getElementById("water").value = mapPtr.waterObstacle;
+  document.getElementById("treasures").value = mapPtr.treasureChest;
+  document.getElementById("jewels").value = mapPtr.jewels;
+
+  document.getElementById("posx").value = dataPtr.xCoord;
+  document.getElementById("posy").value = dataPtr.yCoord;
+  document.getElementById("energy").value = dataPtr.energy;
+}
 </script>
 
 
