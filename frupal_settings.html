@@ -29,30 +29,30 @@ Fog of War:
 <h3>Obstacles</h3>
 
 Trees:
-<textarea rows=1 cols=3 id= tree>2</textarea>
+<textarea rows=1 cols=3 id= tree>25</textarea>
 <p>
 
 Boulders:
-<textarea rows=1 cols=3 id=boulder>4</textarea>
+<textarea rows=1 cols=3 id=boulder>15</textarea>
 <p>
 
 Blackberry:
-<textarea rows=1 cols=3 id=blackberry>4</textarea>
+<textarea rows=1 cols=3 id=blackberry>35</textarea>
 <p>
 
 Water:
-<textarea rows=1 cols=3 id=water>10</textarea>
+<textarea rows=1 cols=3 id=water>60</textarea>
 <p>
 
 
 <h3>Items</h3>
 
 Treasures:
-<textarea rows=1 cols=3 id=treasures>1</textarea>
+<textarea rows=1 cols=3 id=treasures>5</textarea>
 <p>
 
 Jewels:
-<textarea rows=1 cols=3 id=jewels>1</textarea>
+<textarea rows=1 cols=3 id=jewels>5</textarea>
 <p>
 
 <!-- <input id="btntest" type="button" value="Save" onclick="window.location = 'frupal_menu.html'" /> -->
@@ -76,12 +76,12 @@ var statePreservation = { // by default, the object's variables are initialized 
 var mapData = { // Data relevant to map save state
   mapDimensions: 25,
   fogSwitch: true,
-  treeObstacle: 2,
-  boulderObstacle: 4,
-  blackberryObstacle: 4,
-  waterObstacle: 10,
-  treasureChest: 1,
-  jewels: 1
+  treeObstacle: 25,
+  boulderObstacle: 15,
+  blackberryObstacle: 35,
+  waterObstacle: 60,
+  treasureChest: 5,
+  jewels: 5
 };
 var dataPtr = statePreservation;
 var mapPtr = mapData;
@@ -173,9 +173,9 @@ function fetchAndPrintDate(currentDate){ // sets the expiration date for the coo
 function defaultCookie(expiration){ // sets a default cookie
   document.cookie = 'frupalData=' + "John Smith" + "," + 0 + "," + 0 +
   "," + 25 + "," + 25 + "," + 100 + "," + 100 + "," +
-  25 + "," + true + "," + 2 + "," +
-  4 + "," + 4 + "," + 10 + "," + 1 + "," +
-  1 + '; expires=' + expiration.toGMTString() + '; path=/';
+  25 + "," + true + "," + 25 + "," +
+  15 + "," + 40 + "," + 60 + "," + 5 + "," +
+  5 + '; expires=' + expiration.toGMTString() + '; path=/';
 }
 
 function setCookie(data, mapPtr, expiration){ // this sets the cookie to a saved state upon function call
