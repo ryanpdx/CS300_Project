@@ -36,20 +36,48 @@
 </head>
 <body onload="start();">
 <canvas id="mycanvas" width="500px" height="500px"></canvas>
+<script type="text/javascript" src="cookie.js"></script>
 <script type="text/javascript">
 	document.body.style.backgroundColor = "#006699";
+
+	// easy way to define var for cookie functions, uses these values if no cookie is found 
+	var statePreservation = { // by default, the object's variables are initialized on declaration
+	  heroName: "John Smith",
+	  xCoord: 0,
+	  yCoord: 0,
+	  xMax: 25,
+	  yMax: 25,
+	  energy: 100,
+	  whiffles: 100
+	  // if adding additional data, be sure to initialize
+	};
+	var mapData = { // Data relevant to map save state
+	  mapDimensions: 25,
+	  fogSwitch: true,
+	  treeObstacle: 25,
+	  boulderObstacle: 15,
+	  blackberryObstacle: 35,
+	  waterObstacle: 60,
+	  treasureChest: 5,
+	  jewels: 5
+	};
+	var dataPtr = statePreservation;
+	var mapPtr = mapData;
+	readCookies(dataPtr, mapPtr); // get data from cookie if exist
+
 	var chess = document.getElementById("mycanvas");
 	var context = chess.getContext('2d');
 
-	var position = [0, 0]; // Here is the initial position of the hero
-	var hero_energy = 100;//the hero energy set as hero_energy later
+	var position = [parseInt(dataPtr.xCoord), parseInt(dataPtr.yCoord)]; // Here is the initial position of the hero
+	//var position = [0,0]; // Here is the initial position of the hero
+	var hero_energy = parseInt(dataPtr.energy);//the hero energy set as hero_energy later
 	document.getElementById("health").max = hero_energy; // set init value
-	var hero_whiffles = 100;
+	var hero_whiffles = parseInt(dataPtr.whiffles);
 	var context = chess.getContext('2d');
 	var canvas_position = [(chess.width/20),(chess.height/20)];
 
 	//turn fog off for debuging
-	var fog_on = true; // true or false
+	var fog_on = (mapPtr.fogSwitch == "true"); // if string matches set to true, else false
 
 	//arrays of position which has already discovered
 	var record_x = [position[0]];
@@ -79,15 +107,15 @@
 	var power_bar_gain = 20;
 
 	//amount of obstacles/items to randomly place
-	var tree_count = 25;
-	var boulder_count = 15;
-	var blackberry_count = 35;
-	var water_count = 60;
+	var tree_count = parseInt(mapPtr.treeObstacle);
+	var boulder_count = parseInt(mapPtr.boulderObstacle);
+	var blackberry_count = parseInt(mapPtr.blackberryObstacle);
+	var water_count = parseInt(mapPtr.waterObstacle);
 	var bog_count = 25;
-	var treasure1_count = 5;
+	var treasure1_count = parseInt(mapPtr.treasureObstacle);
 	var treasure2_count = 2;
 	var power_bar_count = 5;
-	var jewel_count = 5;
+	var jewel_count = parseInt(mapPtr.jewelObstacle);
 	var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
 
 	//tools variable
