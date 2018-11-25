@@ -29,7 +29,7 @@
     <center>
     	<h2> Frupal </h2>
         <b>Hero current position：</b> <span id='pos'></span>
-        &nbsp;<b>Energy：</b> <span id='energy'></span>
+        &nbsp;<b>Energy：</b> <progress id="health" value="100" max="100"></progress> <span id='energy'></span>
         &nbsp;<b>Whiffles: </b><span id='whiffles'></span>
         &nbsp;<b>Jewels: </b><span id='jewels'></span>
     </center>
@@ -43,7 +43,9 @@
 
 	var position = [0, 0]; // Here is the initial position of the hero
 	var hero_energy = 100;//the hero energy set as hero_energy later
+	document.getElementById("health").max = hero_energy; // set init value
 	var hero_whiffles = 100; 
+	var context = chess.getContext('2d');
 	var canvas_position = [(chess.width/20),(chess.height/20)];
 
 	//turn fog off for debuging
@@ -197,7 +199,6 @@
 
 	function out_of_energy(energy){
 		if (energy <= 0){
-			<!-- no energy --> 
 			document.getElementById('death').play();
 			alert("You have run out of energy");
 			window.location.reload(false); 
@@ -210,20 +211,20 @@
 		document.forms[0].hero_energy.value = hero_energy;
 	}
 
-	function green_img(x,y){
-		grass = new Image();
-		grass.src = 'Green.jpg';
+	function sand_img(x,y){
+		sand = new Image();
+		sand.src = 'sand.jpg';
 		var some_x = x*20;
 		var some_y = y*20;
-		grass.onload = function(){
-			context.drawImage(grass,some_x,some_y,20,20);
+		sand.onload = function(){
+			context.drawImage(sand,some_x,some_y,20,20);
 		}
 	}
-	function draw_green(c_x,c_y){
-		var m_green = [];
+	function draw_sand(c_x,c_y){
+		var m_sand = [];
 		for (y=0 ; y <= c_y; y+=1){
 			for (x=0; x <= c_x; x+=1){
-				m_green.push(new green_img(x,y)); //pushing that image function into the array
+				m_sand.push(new sand_img(x,y)); //pushing that image function into the array
 			}
 		}
 	}
@@ -445,7 +446,7 @@
 	}
 	
 	function drawChessBoard(){
-		draw_green(canvas_position[0],canvas_position[1]);
+		draw_sand(canvas_position[0],canvas_position[1]);
 		draw_obstacles();
 
 		//draw fog
@@ -695,6 +696,7 @@
 	function display(){
 		pos.innerHTML= position;
 		energy.innerHTML= hero_energy;
+		document.getElementById("health").value = hero_energy; // update value
 		whiffles.innerHTML= hero_whiffles;
 		jewels.innerHTML= hero_jewel;
 		setTimeout("display()",100);
