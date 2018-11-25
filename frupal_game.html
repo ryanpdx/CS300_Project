@@ -54,6 +54,10 @@
 
         //verify if the hero gets a binoculars
         var bino = false;
+		// tool count
+        var tool_pickaxe = 1;
+	    var tool_axe = 1;
+	    var tool_weedwacker = 1;
         var bino_count = 0;
 
 		//cost of energy to remove/travers w/o a tool
@@ -61,22 +65,17 @@
 		var boulder_cost = 15;
 		var blackberry_cost = 4;
 		var bog_cost = 1; // plus the normal move cost (2 total)
-        var tool_pickaxe = 1;
-	    var tool_axe = 1;
-	    var tool_weedwacker = 1;
+        var power_bar_cost = 1;
+        var bino_cost = 50;
         var tool_cost_whiffles =10;
-		
+
 		var fog_on = true; // true or false
 
-		//treasure whiffle gain
+		// whiffle gain
 		var treasure1_gain = 100;
         var power_bar_gain = 20;
 
-        var power_bar_cost = 1;
-        var bino_cost = 50;
-
 		//amount of obstacles to randomly place
-        
 		var tree_count = 25;
 		var boulder_count = 15;
 		var blackberry_count = 35;
@@ -85,7 +84,6 @@
         
 		var treasure1_count = 5;
 		var treasure2_count = 2;
-        
         var power_bar_count = 5;
         
         var binoculars_count = 1;
