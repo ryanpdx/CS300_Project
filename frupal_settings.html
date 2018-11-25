@@ -186,7 +186,7 @@ function setCookie(data, mapPtr, expiration){ // this sets the cookie to a saved
   mapPtr.jewels + '; expires=' + expiration.toGMTString() + '; path=/';
    // follow the existing pattern if adding more storeable data.
 }
-  function getCookie(cname) { // string parsing
+function getCookie(cname) { // string parsing
   var name = cname + "=";     // search for cookie variable with name argument passed in
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';'); // separate cookie data

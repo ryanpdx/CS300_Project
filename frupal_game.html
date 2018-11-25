@@ -470,7 +470,7 @@
 
 	}//This function is used for drawing the coordinate
 
-	function AlertDiamondsFound(hero_x,hero_y) {
+	function AlertDiamondsFound() {
 		if(hero_jewel > 2){
 			if(confirm("You earned the Royal Diamonds, and won the game!\nNew game?")){ //ok
 				window.location.reload(false);
@@ -634,7 +634,7 @@
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
 
-		AlertDiamondsFound(position[0], position[1]);
+		AlertDiamondsFound();
 		refresh_info();
 	}
 	function moveleft(){
@@ -655,7 +655,7 @@
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
 
-		AlertDiamondsFound(position[0], position[1]);
+		AlertDiamondsFound();
 		refresh_info();
 	}
 	function moveright(){
@@ -676,7 +676,7 @@
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
 
-		AlertDiamondsFound(position[0],position[1]);
+		AlertDiamondsFound();
 		refresh_info();
 	}
 	function movedown(){
@@ -698,7 +698,7 @@
 		oneStep(position[0], position[1]);
 		out_of_energy(hero_energy);
 
-		AlertDiamondsFound(position[0],position[1]);
+		AlertDiamondsFound();
 		refresh_info();
 	}
 	function display(){
