@@ -700,9 +700,10 @@
                     position[1] -= 1;
                 }
             }
-            drawChessBoard();
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
+
+            drawChessBoard();
             oneStep(position[0], position[1]);
             //check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);
@@ -710,6 +711,7 @@
 			AlertDiamondsFound(position[0], position[1], jewel_position[0], jewel_position[1]);
 			refresh_info();
         }// move up function, draw a new coordinate first to cover the old node and then change the position. Finally, draw the new node on the new position. ATTENTION!! The very left-up corner is (0,0) and for one right step is (1,0), one left step is (-1, 0), !!!! one up step is (0,-1) !!!!, !!!! one step down is (0, 1) !!!! 
+
         function moveleft(){
             //remove();
             //check_obstacle(position[0],position[1],current_x,current_y);
@@ -723,9 +725,10 @@
 			    }
             }
 			
-            drawChessBoard();
 			--hero_energy;
 			check_obstacle(position[0],position[1],current_x,current_y);
+
+            drawChessBoard();
             oneStep(position[0], position[1]);
         //  check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);
@@ -746,9 +749,10 @@
 			    	position[0] += 1;
 			    }
             }
-            drawChessBoard();
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
+
+            drawChessBoard();
             oneStep(position[0], position[1]);
            // check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);//daniel death
@@ -770,9 +774,10 @@
                 }
             }
             
-            drawChessBoard();
 			--hero_energy; //jomar energy
 			check_obstacle(position[0],position[1],current_x,current_y);
+
+            drawChessBoard();
             oneStep(position[0], position[1]);
         //  check_tool(position[0], position[1]);
 			out_of_energy(hero_energy);//daniel death
