@@ -591,11 +591,8 @@
 				map_elements[x][y] = 0; // removes treasurechest
 			}
 			else if(map_elements[x][y] == 6){ // If player lands on a mimic treasure chest
-                alert("You've encunter a mimic!\nIt stole 100 whiffles!");
-				if(hero_whiffles > 100)
-					hero_whiffles -= 100;
-				else
-					hero_whiffles = 0; //sets whiffles to zero
+                alert("You've encunter a mimic!\nIt stole all your whiffles!");
+				hero_whiffles = 0; //sets whiffles to zero
 				map_elements[x][y] = 0; // removes treasurechest
 			}
             else if (map_elements[x][y] == 7) { //If they land on a axe spot
