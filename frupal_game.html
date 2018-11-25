@@ -735,6 +735,7 @@
 		document.getElementById("health").value = hero_energy; // update value
 		whiffles.innerHTML= hero_whiffles;
 		jewels.innerHTML= hero_jewel;
+		check_tool_buttons();
 		setTimeout("display()",100);
 	}// refresh the current position every 100ms
 
@@ -767,26 +768,46 @@
 		oneStep(position[0], position[1]);//Actually draw the node
 		display(); // Display the current position
 	}
-
+	
+	var inventory_list =0;
+ 	function inventory() {
+   		if(inventory_list == 0) {
+		document.getElementById("btn5").textContent = "Quit Inventory";
+		document.getElementById("btn0").style.display = "block";
+		document.getElementById("btn1").style.display = "block";
+		document.getElementById("btn2").style.display = "block";
+		document.getElementById("btn3").style.display = "block";
+		inventory_list = 1;
+	    } else {
+		document.getElementById("btn5").textContent = "Display Inventory";
+		document.getElementById("btn0").style.display = "none";
+		document.getElementById("btn1").style.display = "none";
+		document.getElementById("btn2").style.display = "none";
+		document.getElementById("btn3").style.display = "none";
+		inventory_list = 0;
+	    }
+	}
 </script>
 <center>
-<h2>Inventory </h2>
+<input id="btntest" type="button" value="Quit" onclick="window.location = 'frupal_menu.html'" />
+<button id = "btn5" onclick="inventory()">Display Inventory</button> 
+<h2 id="btn0" style = "display:none;" >Inventory </h2>
 <table class = buttons>
 	<tr>
 	<th>
-	<button id = "btn1" onclick="get_axe()"><p>Axe
+	<button id = "btn1" style="display:none;" onclick="get_axe()"><p>Axe
 	<span id='Axe'></span></p>
-	</button>
+	</button> 
 	</th>
 	<th>
-	<button id = "btn2" onclick="get_pickaxe()"><p>Pickaxe
+	<button id = "btn2" style="display:none;" onclick="get_pickaxe()"><p>Pickaxe
 	<span id='Pickaxe'></span></p>
-	</button>
+	</button> 
 	</th>
 	<th>
-	<button id = "btn3" onclick="get_weedwacker()"> <p>Weedwacker
+	<button id = "btn3" style="display:none;" onclick="get_weedwacker()"> <p>Weedwacker
 	<span id='Weedwacker'></span></p>
-	</button>
+	</button> 
 	</th>
 	</tr>
 </table>
@@ -794,6 +815,5 @@
 <script>
 	_addEventListener('keydown', document, handleKeyboardEvent);
 </script>
-<input id="btntest" type="button" value="Quit" onclick="window.location = 'frupal_menu.html'" />
 </body>
 </html>
