@@ -200,8 +200,12 @@
 	function out_of_energy(energy){
 		if (energy <= 0){
 			document.getElementById('death').play();
-			alert("You have run out of energy");
-			window.location.reload(false); 
+			if(confirm("You have run out of energy.\nNew game?")){ //ok
+				window.location.reload(false); 
+			}
+			else { // cancel
+				window.location = 'frupal_menu.html';
+			}
 			return true;
 		}
 		return false;
@@ -468,8 +472,12 @@
 
 	function AlertDiamondsFound(hero_x,hero_y) {
 		if(hero_jewel > 2){
-			alert("You earned the Royal Diamonds, and won the game !") ;
-			window.location.reload(false); 
+			if(confirm("You earned the Royal Diamonds, and won the game!\nNew game?")){ //ok
+				window.location.reload(false); 
+			}
+			else { // cancel
+				window.location = 'frupal_menu.html';
+			}
 		}
 	}
 	
@@ -758,5 +766,6 @@
 <script>
 	_addEventListener('keydown', document, handleKeyboardEvent);
 </script>
+<input id="btntest" type="button" value="Quit" onclick="window.location = 'frupal_menu.html'" />
 </body>
 </html>
