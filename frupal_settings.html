@@ -9,7 +9,7 @@
 
 Mapsize:
 <textarea rows=1 cols=3 id=mapsize>25</textarea>
- squared
+ grovnicks squared
 <p>
 
 Starting Postion:
@@ -18,26 +18,37 @@ Starting Postion:
 <p>
 
 Starting Energy:
-<textarea rows=1 cols=3 id=energy>100</textarea>
+<textarea rows=1 cols=4 id=energy>100</textarea>
+<p>
+
+Starting Whiffles:
+<textarea rows=1 cols=4 id=whiffles>100</textarea>
 <p>
 
 Fog of War:
-<input type="radio" name="fog_of_war" value="on" checked> On
-<input type="radio" name="fog_of_war" value="off"> Off
+<form name="fog">
+	<input type="radio" name="fog_of_war" value="on"> On
+	<input type="radio" name="fog_of_war" value="off"> Off
+</form>
+<p>
 
 
 <h3>Obstacles</h3>
 
 Trees:
-<textarea rows=1 cols=3 id= tree>25</textarea>
+<textarea rows=1 cols=3 id=tree>25</textarea>
 <p>
 
 Boulders:
 <textarea rows=1 cols=3 id=boulder>15</textarea>
 <p>
 
-Blackberry:
+Blackberry Bushes:
 <textarea rows=1 cols=3 id=blackberry>35</textarea>
+<p>
+
+Bogs:
+<textarea rows=1 cols=3 id=bog>25</textarea>
 <p>
 
 Water:
@@ -47,12 +58,20 @@ Water:
 
 <h3>Items</h3>
 
-Treasures:
+Treasures Chests:
 <textarea rows=1 cols=3 id=treasures>5</textarea>
+<p>
+
+Mimic Treasures Chests:
+<textarea rows=1 cols=3 id=mimics>2</textarea>
 <p>
 
 Jewels:
 <textarea rows=1 cols=3 id=jewels>5</textarea>
+<p>
+
+Power Bar:
+<textarea rows=1 cols=3 id=bars>5</textarea>
 <p>
 
 <!-- <input id="btntest" type="button" value="Save" onclick="window.location = 'frupal_menu.html'" /> -->
@@ -61,6 +80,8 @@ Jewels:
 
 <script>
 document.body.style.backgroundColor = "#006699";
+document.fog.fog_of_war.value="on"; // init set
+
 //document.getElementById("posx").value = '1';
 //var hero_energy =  document.getElementById("energy").value;
 var statePreservation = { // by default, the object's variables are initialized on declaration
@@ -75,13 +96,16 @@ var statePreservation = { // by default, the object's variables are initialized 
 };
 var mapData = { // Data relevant to map save state
   mapDimensions: 25,
-  fogSwitch: true,
+  fogSwitch: "on",
   treeObstacle: 25,
   boulderObstacle: 15,
   blackberryObstacle: 35,
+  bogObstacle: 25,
   waterObstacle: 60,
   treasureChest: 5,
-  jewels: 5
+  mimicChest: 2,
+  jewels: 5,
+  bars: 5
 };
 var dataPtr = statePreservation;
 var mapPtr = mapData;
@@ -107,7 +131,8 @@ body.appendChild(button2);
 button2.addEventListener ("click", function(){
   setExpiry = fetchAndPrintDate(setExpiry);
   defaultCookie(setExpiry);
-  alert("Values set to default!" + "\n" + "Please refresh.");
+  alert("Values set to default!\n");
+  window.location.reload(false); // refresh page
   //dataEcho(statePreservation, mapData);
 });
 /*
@@ -124,8 +149,9 @@ function dataEcho(data, mapPtr){ //expects object statePreservation, and a ptr t
 alert(data.heroName + "\n" + data.xCoord + "\n" + data.yCoord + "\n" + data.xMax + "\n" + data.yMax
 + "\n" + data.energy + "\n" + data.whiffles);
 alert(mapPtr.mapDimensions + "\n" + mapPtr.fogSwitch + "\n" + mapPtr.treeObstacle + "\n" +
-mapPtr.boulderObstacle + "\n" + mapPtr.blackberryObstacle + "\n" + mapPtr.waterObstacle + "\n" +
-mapPtr.treasureChest + "\n" + mapPtr.jewels);
+mapPtr.boulderObstacle + "\n" + mapPtr.blackberryObstacle + "\n" + mapPtr.bogObstacle + "\n" +
+mapPtr.waterObstacle + "\n" + mapPtr.treasureChest + "\n" +
+mapPtr.mimicChest + "\n" + mapPtr.jewels + "\n" + mapPtr.bars);
 }
 function grabData(dataPtr, mapPtr){
 
@@ -135,17 +161,19 @@ function grabData(dataPtr, mapPtr){
   dataPtr.xMax = document.getElementById("mapsize").value;
   dataPtr.yMax = document.getElementById("mapsize").value;
   dataPtr.energy = document.getElementById("energy").value;
-  // no option to set starting whiffles, so whiffles is default 100
+  dataPtr.whiffles = document.getElementById("whiffles").value;
   // VARIABLE MAP SETTINGS ASSIGNED FROM HTML //
-// MAPDATA
   mapPtr.mapDimensions = document.getElementById("mapsize").value;
-  //mapPtr.fogSwitch = document.getElementById("")
+  mapPtr.fogSwitch = document.fog.fog_of_war.value;
   mapPtr.treeObstacle = document.getElementById("tree").value;
   mapPtr.boulderObstacle = document.getElementById("boulder").value;
   mapPtr.blackberryObstacle = document.getElementById("blackberry").value;
+  mapPtr.bogObstacle = document.getElementById("bog").value;
   mapPtr.waterObstacle = document.getElementById("water").value;
   mapPtr.treasureChest = document.getElementById("treasures").value;
+  mapPtr.mimicChest = document.getElementById("mimics").value;
   mapPtr.jewels = document.getElementById("jewels").value;
+  mapPtr.bars = document.getElementById("bars").value;
 }
 
 // FUNCTION DEFINITIONS BELOW THIS POINT //
@@ -174,7 +202,7 @@ function defaultCookie(expiration){ // sets a default cookie
   document.cookie = 'frupalData=' + "John Smith" + "," + 0 + "," + 0 +
   "," + 25 + "," + 25 + "," + 100 + "," + 100 + "," +
   25 + "," + true + "," + 25 + "," +
-  15 + "," + 40 + "," + 60 + "," + 5 + "," +
+  15 + "," + 40 + "," + 25 + "," + 60 + "," + 5 + "," + 2 + "," + 5 + "," +
   5 + '; expires=' + expiration.toGMTString() + '; path=/';
 }
 
@@ -182,8 +210,9 @@ function setCookie(data, mapPtr, expiration){ // this sets the cookie to a saved
   document.cookie = 'frupalData=' + data.heroName + "," + data.xCoord + "," + data.yCoord +
   "," + data.xMax + "," + data.yMax + "," + data.energy + "," + data.whiffles + "," +
   mapPtr.mapDimensions + "," + mapPtr.fogSwitch + "," + mapPtr.treeObstacle + "," +
-  mapPtr.boulderObstacle + "," + mapPtr.blackberryObstacle + "," + mapPtr.waterObstacle + "," + mapPtr.treasureChest + "," +
-  mapPtr.jewels + '; expires=' + expiration.toGMTString() + '; path=/';
+  mapPtr.boulderObstacle + "," + mapPtr.blackberryObstacle + "," + mapPtr.bogObstacle + "," + 
+  mapPtr.waterObstacle + "," + mapPtr.treasureChest + "," + mapPtr.mimicChest + "," +
+  mapPtr.jewels + "," + mapPtr.bars +'; expires=' + expiration.toGMTString() + '; path=/';
    // follow the existing pattern if adding more storeable data.
 }
 function getCookie(cname) { // string parsing
@@ -217,9 +246,12 @@ function readCookies(data, mapPtr){ // this function reads the cookie, splits th
     mapPtr.treeObstacle = parseInt(splitData[9]);
     mapPtr.boulderObstacle = parseInt(splitData[10]);
     mapPtr.blackberryObstacle = parseInt(splitData[11]);
-    mapPtr.waterObstacle = parseInt(splitData[12]);
-    mapPtr.treasureChest = parseInt(splitData[13]);
-    mapPtr.jewels = parseInt(splitData[14]);
+    mapPtr.bogObstacle = parseInt(splitData[12]);
+    mapPtr.waterObstacle = parseInt(splitData[13]);
+    mapPtr.treasureChest = parseInt(splitData[14]);
+    mapPtr.mimicChest = parseInt(splitData[15]);
+    mapPtr.jewels = parseInt(splitData[16]);
+    mapPtr.bars = parseInt(splitData[17]);
     loadSpecSheet(data, mapPtr); // puts cookie data into the settings form
   }
   else{
@@ -231,19 +263,22 @@ function readCookies(data, mapPtr){ // this function reads the cookie, splits th
 function loadSpecSheet(dataPtr, mapPtr){ // loads data from cookie stored on local machine
 
   document.getElementById("mapsize").value = mapPtr.mapDimensions;
-  // fog radio button has no assignable value, and crashes the code when I try
+  document.fog.fog_of_war.value = mapPtr.fogSwitch;
   document.getElementById("tree").value = mapPtr.treeObstacle;
   document.getElementById("boulder").value = mapPtr.boulderObstacle;
   document.getElementById("blackberry").value = mapPtr.blackberryObstacle;
+  document.getElementById("bog").value = mapPtr.bogObstacle;
   document.getElementById("water").value = mapPtr.waterObstacle;
   document.getElementById("treasures").value = mapPtr.treasureChest;
+  document.getElementById("mimics").value = mapPtr.mimicChest;
   document.getElementById("jewels").value = mapPtr.jewels;
+  document.getElementById("bars").value = mapPtr.bars;
 
   document.getElementById("posx").value = dataPtr.xCoord;
   document.getElementById("posy").value = dataPtr.yCoord;
   document.getElementById("energy").value = dataPtr.energy;
+  document.getElementById("whiffles").value = dataPtr.whiffles;
 }
+
 </script>
-
-
 </html>

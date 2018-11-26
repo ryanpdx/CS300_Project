@@ -4,16 +4,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-	<audio id="death" src="death.mp3"preload="auto"></audio>
-	<audio id="bog" src="bog.mp3"preload="auto"></audio>
-	<audio id="blackberry_hand" src="blackberry_hand.mp3"preload="auto"></audio>
-    <audio id="rock_hand" src="rock_hand.mp3"preload="auto"></audio>
-	<audio id="tree_hand" src="tree_hand.mp3"preload="auto"></audio>
-	<audio id="mimic" src="mimic.mp3"preload="auto"></audio>
-	<audio id="winning" src="winning.mp3"preload="auto"></audio>
-	<audio id="treasure" src="treasure.mp3"preload="auto"></audio>
-	<audio id="energy" src="energy.mp3"preload="auto"></audio>
-	<audio id="jewel" src="jewel.mp3"preload="auto"></audio>
+	<audio id="death" src="sounds/death.mp3"preload="auto"></audio>
+	<audio id="bog" src="sounds/bog.mp3"preload="auto"></audio>
+	<audio id="blackberry_hand" src="sounds/blackberry_hand.mp3"preload="auto"></audio>
+    <audio id="rock_hand" src="sounds/rock_hand.mp3"preload="auto"></audio>
+	<audio id="tree_hand" src="sounds/tree_hand.mp3"preload="auto"></audio>
+	<audio id="mimic" src="sounds/mimic.mp3"preload="auto"></audio>
+	<audio id="winning" src="sounds/winning.mp3"preload="auto"></audio>
+	<audio id="treasure" src="sounds/treasure.mp3"preload="auto"></audio>
+	<audio id="energy" src="sounds/energy.mp3"preload="auto"></audio>
+	<audio id="jewel" src="sounds/jewel.mp3"preload="auto"></audio>
 	<style type="text/css">
         canvas {
         	display: block;
@@ -34,7 +34,7 @@
 	</style>
     <center>
     	<h2> Frupal </h2>
-        <b>Hero current position：</b> <span id='pos'></span>
+        <b>Hero current Position：</b> <span id='pos'></span>
         &nbsp;<b>Energy：</b> <progress id="health" value="100" max="100"></progress> <span id='energy'></span>
         &nbsp;<b>Whiffles: </b><span id='whiffles'></span>
         &nbsp;<b>Jewels: </b><span id='jewels'></span>
@@ -48,24 +48,26 @@
 
 	// easy way to define var for cookie functions, uses these values if no cookie is found 
 	var statePreservation = { // by default, the object's variables are initialized on declaration
-	  heroName: "John Smith",
-	  xCoord: 0,
-	  yCoord: 0,
-	  xMax: 25,
-	  yMax: 25,
-	  energy: 100,
-	  whiffles: 100
-	  // if adding additional data, be sure to initialize
+		heroName: "John Smith",
+		xCoord: 0,
+		yCoord: 0,
+		xMax: 25,
+		yMax: 25,
+		energy: 100,
+		whiffles: 100
 	};
 	var mapData = { // Data relevant to map save state
-	  mapDimensions: 25,
-	  fogSwitch: "true",
-	  treeObstacle: 25,
-	  boulderObstacle: 15,
-	  blackberryObstacle: 35,
-	  waterObstacle: 60,
-	  treasureChest: 5,
-	  jewels: 5
+		mapDimensions: 25,
+		fogSwitch: "on", // on / off
+		treeObstacle: 25,
+		boulderObstacle: 15,
+		blackberryObstacle: 35,
+		bogObstacle: 25,
+		waterObstacle: 60,
+		treasureChest: 5,
+		mimicChest: 2,
+		jewels: 5,
+		bars: 5
 	};
 	var dataPtr = statePreservation;
 	var mapPtr = mapData;
@@ -83,7 +85,7 @@
 	var canvas_position = [(chess.width/20),(chess.height/20)];
 
 	//turn fog off for debuging
-	var fog_on = (mapPtr.fogSwitch == "true"); // if string matches set to true, else false
+	var fog_on = (mapPtr.fogSwitch == "on"); // if string matches set to true, else false
 
 	//arrays of position which has already discovered
 	var record_x = [position[0]];
@@ -117,11 +119,12 @@
 	var boulder_count = parseInt(mapPtr.boulderObstacle);
 	var blackberry_count = parseInt(mapPtr.blackberryObstacle);
 	var water_count = parseInt(mapPtr.waterObstacle);
-	var bog_count = 25;
+	var bog_count = parseInt(mapPtr.bogObstacle);
 	var treasure1_count = parseInt(mapPtr.treasureChest);
-	var treasure2_count = 2;
-	var power_bar_count = 5;
+	var treasure2_count = parseInt(mapPtr.mimicChest);
+	var power_bar_count = parseInt(mapPtr.bars);
 	var jewel_count = parseInt(mapPtr.jewels);
+
 	var hero_jewel = 0; // keeps track of the amount of jewels to hero has collected
 
 	//tools variable
@@ -240,7 +243,7 @@
 		if (energy <= 0){
 			document.getElementById('death').play();
 			if(confirm("You have run out of energy.\nNew game?")){ //ok
-				window.location.reload(false);
+				window.location.reload(false); // refresh page
 			}
 			else { // cancel
 				window.location = 'frupal_menu.html';
@@ -256,7 +259,7 @@
 
 	function sand_img(x,y){
 		sand = new Image();
-		sand.src = 'sand.jpg';
+		sand.src = "images/sand.jpg";
 		var some_x = x*20;
 		var some_y = y*20;
 		sand.onload = function(){
@@ -274,7 +277,7 @@
 
 	function treasure_img(x,y){
 		treasure = new Image();
-		treasure.src = 'treasure.png';
+		treasure.src = 'images/treasure.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		treasure.onload = function(){
@@ -283,7 +286,7 @@
 	}
 	function water_img(x,y){
 		water = new Image();
-		water.src = 'water.jpg';
+		water.src = 'images/water.jpg';
 		var some_x = x*20;
 		var some_y = y*20;
 		water.onload = function(){
@@ -293,7 +296,7 @@
 
 	function bog_img(x,y){
 		bog = new Image();
-		bog.src = 'bog.jpg';
+		bog.src = 'images/bog.jpg';
 		var some_x = x*20;
 		var some_y = y*20;
 		bog.onload = function(){
@@ -302,7 +305,7 @@
 	}
 	function tree_img(x,y){
 		tree = new Image();
-		tree.src = 'tree.png';
+		tree.src = 'images/tree.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		tree.onload = function(){
@@ -311,7 +314,7 @@
 	}
 	function boulder_img(x,y){
 		boulder = new Image();
-		boulder.src = 'boulder.png';
+		boulder.src = 'images/boulder.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		boulder.onload = function(){
@@ -321,7 +324,7 @@
 
 	function jewel_img(x,y){
 		jewel = new Image();
-		jewel.src = 'jewel.png';
+		jewel.src = 'images/jewel.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		jewel.onload = function(){
@@ -330,7 +333,7 @@
 	}
 	function blackberry_img(x,y){
 		blackberry = new Image();
-		blackberry.src = 'blackberry.png';
+		blackberry.src = 'images/blackberry.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		blackberry.onload = function(){
@@ -339,7 +342,7 @@
 	}
 	function powerbar_img(x,y){
 		powerbar = new Image();
-		powerbar.src = 'power_bar.png';
+		powerbar.src = 'images/power_bar.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		powerbar.onload = function(){
@@ -348,7 +351,7 @@
 	}
 	function binoculars_img(x,y){
 		bino_img = new Image();
-		bino_img.src = 'binoculars.png';
+		bino_img.src = 'images/binoculars.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		bino_img.onload = function(){
@@ -357,7 +360,7 @@
 	}
 	function pickaxe_img(x,y){
 		pickaxe_image = new Image();
-		pickaxe_image.src = 'Pickaxe.png';
+		pickaxe_image.src = 'images/Pickaxe.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		pickaxe_image.onload = function(){
@@ -366,7 +369,7 @@
 	}
 	function axe_img(x,y){
 		axe_image = new Image();
-		axe_image.src = 'Axe.png';
+		axe_image.src = 'images/Axe.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		axe_image.onload = function(){
@@ -375,7 +378,7 @@
 	}
 	function weedwacker_img(x,y){
 		weedwacker_image= new Image();
-		weedwacker_image.src = 'Scissors.png';
+		weedwacker_image.src = 'images/Scissors.png';
 		var some_x = x*20;
 		var some_y = y*20;
 		weedwacker_image.onload = function(){
@@ -448,7 +451,7 @@
 	//black blocks for fog of war
 	function black_img(x,y){
 		black = new Image();
-		black.src = 'black.jpg'
+		black.src = 'images/black.jpg'
 		var some_x = x*20;
 		var some_y = y*20;
 		black.onload = function(){
@@ -523,7 +526,7 @@
 
 	function oneStep(x,y){
 		hero = new Image();
-		hero.src = 'Hero.png';
+		hero.src = 'images/Hero.png';
 		hero.onload = function(){
 			context.drawImage(hero,x*20,y*20,20,20);
 		}
@@ -789,7 +792,7 @@
 	var inventory_list =0;
  	function inventory() {
    		if(inventory_list == 0) {
-		document.getElementById("btn5").textContent = "Quit Inventory";
+		document.getElementById("btn5").textContent = "Hide Inventory";
 		document.getElementById("btn0").style.display = "block";
 		document.getElementById("btn1").style.display = "block";
 		document.getElementById("btn2").style.display = "block";

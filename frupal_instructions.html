@@ -8,12 +8,13 @@
 <strong>Winning the Game</strong> <p>
 To win the game, the hero must collect all the Royal Jewels. 
 <p>
-<img src="hero.png" height="40" width="40">
+<img src="images/hero.png" height="40" width="40">
 <strong>Hero</strong> <p>
 The player's alter ego with the goal to collect all the Royal Jewels.
 <p>
 <strong>Whiffles (Wh)</strong> <p>
-In game currency and can be use to buy tools/items. 
+In game currency and can be use to buy tools/items. <p>
+By default hero start with 100Wh.
 <p>
 <strong>Grovnick</strong> <p>
 One square tile of the island that make up the map.
@@ -23,81 +24,84 @@ Use the arrow keys to move one grovnick. <p>
 If the hero "jumps" of the edge of the island, they are teleported to opposite side of the island. <p>
 Every attept at moving cost energy.
 <p>
+<strong>Energy: </strong> <p>
+Moving and removing obstacles requres energy. <p>
+If you run out of energy the game ends. <p>
+By default hero start with 100 energy.
+<p>
 
 <h2>Terrain: </h2>
-<img src="sand.jpg" height="40" width="40">
+<img src="images/sand.jpg" height="40" width="40">
 <strong>Sand</strong> <p>
 Cost 1 energy to move.
 <p>
-<img src="bog.jpg" height="40" width="40">
+<img src="images/bog.jpg" height="40" width="40">
 <strong>Bog</strong> <p>
 Cost 2 energy to move.
 <p>
-<img src="water.jpg" height="40" width="40">
+<img src="images/water.jpg" height="40" width="40">
 <strong>Water</strong> <p>
 Requires a boat to travel on water.
 <p>
-<img src="black.jpg" height="40" width="40">
+<img src="images/black.jpg" height="40" width="40">
 <strong>Fog</strong> <p>
 Hero can only see 1 grovnick in all directions. <p>
 If the hero has binoculars they can see 2 grovnick is all directions. <p>
 Hides other terrain the hero has not seen.
 <p>
 
-<h2>Energy: </h2>
-By default hero start with 100 energy. <p>
-Moving and removing obstacles requres energy. <p>
-If you run out of energy the game ends.
-<p>
 
 <h2>Obstacles: </h2>
-<img src="tree.png" height="40" width="40">
+<img src="images/tree.png" height="40" width="40">
 <strong>Trees</strong> <p>
-Trees cost 10 energy to cut down without an axe and 6 energy with an axe.
+Trees cost 10 energy to cut down without an axe and 3 energy with an axe.
 <p>
-<img src="boulder.png" height="40" width="40">
+<img src="images/boulder.png" height="40" width="40">
 <strong>Boulder</strong> <p>
-Boulders cost 16 energy to break without an Pickaxe and 12 with an Pickaxe.
+Boulders cost 15 energy to break without an Pickaxe and 10 with an Pickaxe.
 <p>
-<img src="blackberry.png" height="40" width="40">
+<img src="images/blackberry.png" height="40" width="40">
 <strong>Blackberry Bushes</strong> <p>
-Blackberry bushes cost 4 energy to remove without a Weed Wacker, 2 energy with a Weed Wacker.
+Blackberry bushes cost 4 energy to remove without a Weed Wacker, 1 energy with a Weed Wacker.
 <p>
 
 <h2>Tools: </h2>
-<img src="Axe.png" height="40" width="40">
+<img src="images/Axe.png" height="40" width="40">
 <strong>Axe</strong> <p>
-Use to cut down trees for less energy. <p>
-Cost 30Wh, if found.
+Reduces blackberry bushes removal cost by 7 energy. <p>
+Cost 10Wh, if found.
 <p>
-<img src="Scissors.png" height="40" width="40">
+<img src="images/Scissors.png" height="40" width="40">
 <strong>Weed Wacker</strong> <p>
-Use to remove blackberry bushes using less energy. <p>
-Cost 35Wh, if found.
+Reduces blackberry bushes removal cost by 5 energy. <p>
+Cost 10Wh, if found.
 <p>
-<img src="Pickaxe.png" height="40" width="40">
+<img src="images/Pickaxe.png" height="40" width="40">
 <strong>Pickaxe</strong> <p>
-Use to remove boulders using less energy. <p>
-Cost 25Wh, if found.
+Reduces boulders removal cost by 3 energy. <p>
+Cost 10Wh, if found.
 <p>
-<img src="binoculars.png" height="40" width="40">
+<img src="images/binoculars.png" height="40" width="40">
 <strong>Binoculars</strong> <p>
 Allow the hero to 2 grovnick is all direction. <p>
 Cost 50Wh, if found.
 <p>
 
 <h2>Items: </h2>
-<img src="jewel.png" height="40" width="40">
+<img src="images/jewel.png" height="40" width="40">
 <strong>Royal Jewels</strong> <p>
 The hero will win the game if these are found.
 <p>
-<img src="treasure.png" height="40" width="40">
+<img src="images/treasure.png" height="40" width="40">
 <strong>Treasure Chests</strong> <p>
 Treasure chest contains 100 Whiffles. <p>
-Mimic treasure chest will take all of the hero Whiffles. <p>
-Normal and mimic tresure chests look the same.
 <p>
-<img src="power_bar.png" height="40" width="40">
+<img src="images/treasure.png" height="40" width="40">
+<strong>Mimic Treasure Chests</strong> <p>
+Mimic treasure chests will take all of the hero's Whiffles. <p>
+WARNING!! Mimic treasure chests look the same as normal treasure chests.
+<p>
+<img src="images/power_bar.png" height="40" width="40">
 <strong>Power Bars</strong> <p>
 Can be used to restore 20 energy. <p>
 Cost 1 Wh each.

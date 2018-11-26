@@ -12,13 +12,16 @@
 	};
 	var mapData = { // Data relevant to map save state
 	  mapDimensions: 25,
-	  fogSwitch: true,
+	  fogSwitch: "on",
 	  treeObstacle: 25,
 	  boulderObstacle: 15,
 	  blackberryObstacle: 35,
+      bogObstacle: 25,
 	  waterObstacle: 60,
 	  treasureChest: 5,
-	  jewels: 5
+	  mimicChest: 2,
+	  jewels: 5,
+	  bars: 5
 	};
 
 //var setExpiry = fetchAndPrintDate(setExpiry);
@@ -28,7 +31,7 @@ function defaultCookie(expiration){ // sets a default cookie
   document.cookie = 'frupalData=' + "John Smith" + "," + 0 + "," + 0 +
   "," + 25 + "," + 25 + "," + 100 + "," + 100 + "," +
   25 + "," + true + "," + 25 + "," +
-  15 + "," + 40 + "," + 60 + "," + 5 + "," +
+  15 + "," + 40 + "," + 25 + "," + 60 + "," + 5 + "," + 2 + "," + 5 + "," +
   5 + '; expires=' + expiration.toGMTString() + '; path=/';
 }
 
@@ -65,9 +68,12 @@ function readCookies(data, mapPtr){ // this function reads the cookie, splits th
     mapPtr.treeObstacle = parseInt(splitData[9]);
     mapPtr.boulderObstacle = parseInt(splitData[10]);
     mapPtr.blackberryObstacle = parseInt(splitData[11]);
-    mapPtr.waterObstacle = parseInt(splitData[12]);
-    mapPtr.treasureChest = parseInt(splitData[13]);
-    mapPtr.jewels = parseInt(splitData[14]);
+    mapPtr.bogObstacle = parseInt(splitData[12]);
+    mapPtr.waterObstacle = parseInt(splitData[13]);
+    mapPtr.treasureChest = parseInt(splitData[14]);
+    mapPtr.mimicChest = parseInt(splitData[15]);
+    mapPtr.jewels = parseInt(splitData[16]);
+    mapPtr.bars = parseInt(splitData[17]);
     //loadSpecSheet(data, mapPtr); // puts cookie data into the settings form
   }
   //else{
