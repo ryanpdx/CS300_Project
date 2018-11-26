@@ -134,6 +134,11 @@
 	var axe_used = 0;
 	var pickaxe_used = 0;
 	var weedwacker_used =0;
+	
+	// Energy you save if you have these items.
+	var axe_energy_save = 7;
+	var pickaxe_energy_save = 10;
+	var weedwacker = 3;
 
 	//map bounds
 	var map_size = 25;
@@ -566,7 +571,7 @@
 				if (hero_whiffles >= tool_cost_whiffles) {
 					map_elements[x][y] = 0;
 					hero_whiffles -= tool_cost_whiffles;
-					tree_cost -= tool_axe;
+					tree_cost -= axe_energy_save; //Minus the tree cost of the axe energy save.
 					//	tool[0] = true;
 					axe +=1;
 				}
@@ -584,7 +589,7 @@
 				if (hero_whiffles >= tool_cost_whiffles) {
 					map_elements[x][y] = 0;
 					hero_whiffles -= tool_cost_whiffles;
-					blackberry_cost -= tool_weedwacker;
+					blackberry_cost -= weedwacker_energy_save;
 					//	tool[2] = true;
 					weedwacker +=1;
 				}
@@ -602,7 +607,7 @@
 				if (hero_whiffles >= tool_cost_whiffles) {
 					map_elements[x][y] = 0;
 					hero_whiffles -= tool_cost_whiffles;
-					boulder_cost -= tool_pickaxe;
+					boulder_cost -= pickaxe_energy_save;
 					//	tool[1] = true;
 					pickaxe +=1;
 				}
