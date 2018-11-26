@@ -8,6 +8,12 @@
 	<audio id="bog" src="bog.mp3"preload="auto"></audio>
 	<audio id="blackberry_hand" src="blackberry_hand.mp3"preload="auto"></audio>
     <audio id="rock_hand" src="rock_hand.mp3"preload="auto"></audio>
+	<audio id="tree_hand" src="tree_hand.mp3"preload="auto"></audio>
+	<audio id="mimic" src="mimic.mp3"preload="auto"></audio>
+	<audio id="winning" src="winning.mp3"preload="auto"></audio>
+	<audio id="treasure" src="treasure.mp3"preload="auto"></audio>
+	<audio id="energy" src="energy.mp3"preload="auto"></audio>
+	<audio id="jewel" src="jewel.mp3"preload="auto"></audio>
 	<style type="text/css">
         canvas {
         	display: block;
@@ -207,11 +213,11 @@
 		}
 		map_elements[random_coord()][random_coord()] = 11; // binoculars
 		// jewels need to be last value as current implementation does not check if another object is in that location
-		for (var i = 0; i < jewel_count;++i){
-			map_elements[random_coord()][random_coord()] = 12;
-		}
 		for (var i = 0; i < bog_count;++i){
 			map_elements[random_coord()][random_coord()] = 13;
+		}
+		for (var i = 0; i < jewel_count;++i){
+			map_elements[random_coord()][random_coord()] = 12;
 		}
 		//Dont have any items @ these blocks
 		map_elements[0][0] =0;
@@ -501,6 +507,7 @@
 	function AlertDiamondsFound() {
 		if(hero_jewel > 2){
 			if(confirm("You earned the Royal Diamonds, and won the game!\nNew game?")){ //ok
+				document.getElementById('winning').play();
 				window.location.reload(false);
 			}
 			else { // cancel
@@ -521,6 +528,7 @@
 	function check_obstacle(x,y,cur_x,cur_y){ //checks hero location vs the obstacle coordinates
 		if(map_elements[x][y] == 1){
 			hero_energy -= tree_cost; // decrements energy by variable
+			document.getElementById('tree_hand').play();
 			map_elements[x][y] = 0;  // sets obsticle to 0 removing obstacle
 			axe_used = 0;
 		}
@@ -543,11 +551,13 @@
 
 		else if(map_elements[x][y] == 5){ // If player lands on a treasure chest
 			hero_whiffles += treasure1_gain; //adds whiffles
+			document.getElementById('treasure').play();
 			map_elements[x][y] = 0; // removes treasurechest
 		}
 		else if(map_elements[x][y] == 6){ // If player lands on a mimic treasure chest
 			alert("You've encounter a mimic!\nIt stole all your whiffles!\n :(");
 			hero_whiffles = 0; //sets whiffles to zero
+			document.getElementById('mimic').play();
 			map_elements[x][y] = 0; // removes treasurechest
 		}
 		else if (map_elements[x][y] == 7) { //If they land on a axe spot
@@ -612,6 +622,7 @@
 				} else {
 					hero_whiffles -= power_bar_cost;
 					hero_energy += power_bar_gain;
+					document.getElementById('energy').play();
 					map_elements[x][y] = 0;
 				}
 			}
@@ -631,6 +642,7 @@
 		}
 		else if(map_elements[x][y] == 12){ //If player lands on royal jewels
 			hero_jewel++;  //adds 1 to hero jewels
+			document.getElementById('jewel').play();
 			map_elements[x][y] = 0;
 		}
 
