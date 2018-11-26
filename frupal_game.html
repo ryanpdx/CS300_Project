@@ -35,7 +35,7 @@
     <center>
     	<h2> Frupal </h2>
         <b>Hero current Position：</b> <span id='pos'></span>
-        &nbsp;<b>Energy：</b> <progress id="health" value="100" max="100"></progress> <span id='energy'></span>
+        &nbsp;<b>Energy：</b> <progress id="health" value="100" max="100"></progress> </b> <span id='energy_v'></span>
         &nbsp;<b>Whiffles: </b><span id='whiffles'></span>
         &nbsp;<b>Jewels: </b><span id='jewels'></span>
     </center>
@@ -751,7 +751,7 @@
 	}
 	function display(){
 		pos.innerHTML= position;
-		energy.innerHTML= hero_energy;
+		energy_v.innerHTML= hero_energy;
 		document.getElementById("health").value = hero_energy; // update value
 		whiffles.innerHTML= hero_whiffles;
 		jewels.innerHTML= hero_jewel;
